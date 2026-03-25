@@ -23,7 +23,6 @@ import java.util.Scanner;
  */
 public class Deusuario extends javax.swing.JFrame {
 
-    private boolean escribiendo = false;
     private boolean existe = false;
 
 
@@ -76,18 +75,15 @@ lblMensaje.setForeground(new java.awt.Color(0, 153, 0)); // verde
     });
 
     // 🔥 TAMBIÉN AL SALIR DEL CAMPO
-   Usuariotxt.addFocusListener(new java.awt.event.FocusAdapter() {
+  Usuariotxt.addKeyListener(new java.awt.event.KeyAdapter() {
     @Override
-    public void focusGained(java.awt.event.FocusEvent evt) {
-        if (!escribiendo) {
-            JOptionPane.showMessageDialog(null, "Creando nuevo usuario...");
-            escribiendo = true;
-        }
-    }
-    
-    @Override
-    public void focusLost(java.awt.event.FocusEvent evt) {
+    public void keyReleased(java.awt.event.KeyEvent evt) {
         buscarUsuario(Usuariotxt.getText());
+
+        if (!existe) {
+            lblMensaje.setText("Creando nuevo usuario...");
+            lblMensaje.setForeground(new java.awt.Color(0, 153, 255));
+        }
     }
 });
     
@@ -96,9 +92,9 @@ private void buscarUsuario(String usuario) {
 
     if (usuario.isEmpty()) return;
 
-    existe = false; // ⚡ inicializamos al inicio
+    existe = false;
 
-    try (BufferedReader br = new BufferedReader(new FileReader("Usuario.txt"))) { // try-with-resources cierra automáticamente
+    try (BufferedReader br = new BufferedReader(new FileReader("Usuario.txt"))) {
         String linea;
 
         while ((linea = br.readLine()) != null) {
@@ -106,7 +102,6 @@ private void buscarUsuario(String usuario) {
 
             if (datos[0].trim().equalsIgnoreCase(usuario.trim())) {
 
-                // ⚡ rellenamos los campos
                 txtPassword.setText(datos[1]);
                 txtNombre.setText(datos[2]);
                 txtApellido.setText(datos[3]);
@@ -115,27 +110,33 @@ private void buscarUsuario(String usuario) {
                 grupoNivel.clearSelection();
                 if (datos[4].trim().equals("0")) {
                     rbAdmin.setSelected(true);
-                } else if (datos[4].trim().equals("1")) {
+                } else {
                     rbNormal.setSelected(true);
                 }
 
-                existe = true; // ⚡ usuario encontrado
-                return; // 🔥 salimos del método
+                existe = true;
+
+                lblMensaje.setText("Modificando usuario existente...");
+                lblMensaje.setForeground(new java.awt.Color(255, 153, 0));
+
+                return;
             }
         }
 
-        // ⚡ si no existe → limpiar campos
+        // 🔴 NO EXISTE
         txtPassword.setText("");
         txtNombre.setText("");
         txtApellido.setText("");
         txtCorreo.setText("");
         grupoNivel.clearSelection();
 
+        lblMensaje.setText("Creando nuevo usuario...");
+        lblMensaje.setForeground(new java.awt.Color(0, 153, 255));
+
     } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error al buscar usuario");
     }
-}
-        
+}    
  
     
 
@@ -390,19 +391,18 @@ private void buscarUsuario(String usuario) {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
-       
-    // 🔹 1. VALIDAR CAMPOS
-   if (Usuariotxt.getText().isEmpty() ||
-    String.valueOf(txtPassword.getPassword()).isEmpty() ||
-    txtNombre.getText().isEmpty() ||
-    txtApellido.getText().isEmpty() ||
-    txtCorreo.getText().isEmpty()) {
+    // 🔹 VALIDAR CAMPOS
+    if (Usuariotxt.getText().isEmpty() ||
+        String.valueOf(txtPassword.getPassword()).isEmpty() ||
+        txtNombre.getText().isEmpty() ||
+        txtApellido.getText().isEmpty() ||
+        txtCorreo.getText().isEmpty()) {
 
-    JOptionPane.showMessageDialog(this, "Complete todos los campos");
-    return;
-}
+        JOptionPane.showMessageDialog(this, "Complete todos los campos");
+        return;
+    }
 
-    // 🔹 2. OBTENER NIVEL
+    // 🔹 NIVEL
     String nivel = "";
 
     if (rbAdmin.isSelected()) {
@@ -410,72 +410,70 @@ private void buscarUsuario(String usuario) {
     } else if (rbNormal.isSelected()) {
         nivel = "1";
     } else {
-        JOptionPane.showMessageDialog(this, "Seleccione nivel de acceso");
+        JOptionPane.showMessageDialog(this, "Seleccione nivel");
         return;
     }
 
     try {
-        // 🔹 3. CREAR / VERIFICAR ARCHIVO
         File f = new File("Usuario.txt");
 
         if (!f.exists()) {
             f.createNewFile();
         }
 
-        // 🔹 4. VALIDAR USUARIO DUPLICADO (AQUÍ SÍ SIRVE SCANNER 🔥)
-        Scanner sc = new Scanner(f);
-        boolean existe = false;
+        String nuevo =
+                Usuariotxt.getText() + ";" +
+                String.valueOf(txtPassword.getPassword()) + ";" +
+                txtNombre.getText() + ";" +
+                txtApellido.getText() + ";" +
+                nivel + ";" +
+                txtCorreo.getText();
 
-        while (sc.hasNextLine()) {
-            String linea = sc.nextLine();
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        String linea;
+        StringBuilder contenido = new StringBuilder();
+
+        boolean encontrado = false;
+
+        while ((linea = br.readLine()) != null) {
             String[] datos = linea.split(";");
 
-            if (datos[0].equals(Usuariotxt.getText())) {
-                existe = true;
-                break;
+            if (datos[0].equalsIgnoreCase(Usuariotxt.getText())) {
+                contenido.append(nuevo).append("\n"); // reemplaza
+                encontrado = true;
+            } else {
+                contenido.append(linea).append("\n");
             }
         }
 
-        sc.close();
+        br.close();
 
-        if (existe) {
-            JOptionPane.showMessageDialog(this, "El usuario ya existe");
-            return;
+        // 🔹 SI NO EXISTE → AGREGAR
+        if (!encontrado) {
+            contenido.append(nuevo).append("\n");
         }
 
-        // 🔹 5. GUARDAR
-    FileWriter fw = new FileWriter(f, true);
+        FileWriter fw = new FileWriter(f);
+        fw.write(contenido.toString());
+        fw.close();
 
-String password = String.valueOf(txtPassword.getPassword());
+        // 🔹 MENSAJE
+        if (encontrado) {
+            JOptionPane.showMessageDialog(this, "Usuario modificado correctamente");
+            lblMensaje.setText("Usuario modificado correctamente");
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario creado correctamente");
+            lblMensaje.setText("Usuario creado correctamente");
+        }
 
-fw.write(
-    Usuariotxt.getText() + ";" +
-    password + ";" +
-    txtNombre.getText() + ";" +
-    txtApellido.getText() + ";" +
-    nivel + ";" +
-    txtCorreo.getText() + System.lineSeparator()
-);
-
-fw.close();
-        JOptionPane.showMessageDialog(this, "Usuario guardado correctamente");
+        lblMensaje.setForeground(new java.awt.Color(0, 153, 0));
 
     } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error al guardar");
     }
-buscarUsuario(Usuariotxt.getText());
 
+    buscarUsuario(Usuariotxt.getText());
 
-//mensaje
-
-JOptionPane.showMessageDialog(this, "Modificando usuario existente...");
-    
-    if (existe) {
-    JOptionPane.showMessageDialog(this, "Usuario modificado correctamente");
-} else {
-    JOptionPane.showMessageDialog(this, "Usuario creado correctamente");
-}
-    
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed

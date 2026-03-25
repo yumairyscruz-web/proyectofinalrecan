@@ -22,7 +22,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
      */
   public MenuPrincipal(String usuario, int nivel, String nombre, String apellido) {
     initComponents();
-
+//codigo para inabilitad a usuario a entra vehiculo,goma,oferta
     if (nivel == 1) {
         jMenuItem5.setEnabled(false);
         jMenuItem6.setEnabled(false);
@@ -34,7 +34,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     setLocationRelativeTo(null);
 
-    // 🔥 CAMBIO AQUÍ
+    // bienvenida en el menu
     lblBienvenida.setText("Bienvenido/a, " + nombre + " " + apellido);
 
     lblMensaje.setText("¡Seleccione una opción del menú para comenzar!");
