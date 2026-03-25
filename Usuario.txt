@@ -1,0 +1,4 @@
+yumairy;1234;yumairy;cruz;0;yumairycruz@gmail.com
+laura;1234;laura;gutierez;0;laura@gmail.com
+carlos;1234;carlos;care;1;
+maria;123;maria;perez;1;maria@gmail.com

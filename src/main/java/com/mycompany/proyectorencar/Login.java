@@ -5,7 +5,10 @@
 package com.mycompany.proyectorencar;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import javax.swing.JOptionPane;
+import java.io.IOException;
 
 /**
  *
@@ -23,17 +26,17 @@ public class Login extends javax.swing.JFrame {
        
      setLocationRelativeTo(null); // centra la ventana
      //ingresa contraseña
-   txtcont.setText("******");       // lo que tú quieres mostrar
-txtcont.setEchoChar((char)0);    // lo muestra visible (no oculto)
+   txtPassword.setText("******");       // lo que tú quieres mostrar
+txtPassword.setEchoChar((char)0);    // lo muestra visible (no oculto)
         
-txtcont.addFocusListener(new java.awt.event.FocusAdapter() {
+txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
 
     @Override
     public void focusGained(java.awt.event.FocusEvent evt) {
 
-        if(String.valueOf(txtcont.getPassword()).equals("******")){
-            txtcont.setText("");
-            txtcont.setEchoChar('*');
+        if(String.valueOf(txtPassword.getPassword()).equals("******")){
+            txtPassword.setText("");
+            txtPassword.setEchoChar('*');
         }
 
     }
@@ -41,9 +44,9 @@ txtcont.addFocusListener(new java.awt.event.FocusAdapter() {
     @Override
     public void focusLost(java.awt.event.FocusEvent evt) {
 
-        if(String.valueOf(txtcont.getPassword()).isEmpty()){
-            txtcont.setText("******");
-            txtcont.setEchoChar((char)0);
+        if(String.valueOf(txtPassword.getPassword()).isEmpty()){
+            txtPassword.setText("******");
+            txtPassword.setEchoChar((char)0);
         }
 
     }
@@ -52,8 +55,30 @@ txtcont.addFocusListener(new java.awt.event.FocusAdapter() {
 
     }
     
-
     
+ private String[] validarLogin(String user, String pass) {
+
+    try {
+        BufferedReader br = new BufferedReader(new FileReader("Usuario.txt"));
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(";");
+
+            if (datos[0].equals(user) && datos[1].equals(pass)) {
+                return datos; // 🔥 devuelve TODO
+            }
+        }
+
+        br.close();
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al leer archivo");
+    }
+
+    return null;
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -66,8 +91,8 @@ txtcont.addFocusListener(new java.awt.event.FocusAdapter() {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtusuario = new javax.swing.JTextField();
-        txtcont = new javax.swing.JPasswordField();
+        Usuariotxt = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JPasswordField();
         Botoningresa = new javax.swing.JButton();
         BotonSalir = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -78,10 +103,10 @@ txtcont.addFocusListener(new java.awt.event.FocusAdapter() {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        txtusuario.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        Usuariotxt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        txtcont.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        txtcont.addActionListener(this::txtcontActionPerformed);
+        txtPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        txtPassword.addActionListener(this::txtPasswordActionPerformed);
 
         Botoningresa.setBackground(new java.awt.Color(0, 0, 255));
         Botoningresa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -120,9 +145,9 @@ txtcont.addFocusListener(new java.awt.event.FocusAdapter() {
                             .addComponent(jLabel3))
                         .addGap(34, 34, 34)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Usuariotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtcont, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(chkMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -136,13 +161,13 @@ txtcont.addFocusListener(new java.awt.event.FocusAdapter() {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtusuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Usuariotxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(chkMostrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtcont, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -169,20 +194,21 @@ txtcont.addFocusListener(new java.awt.event.FocusAdapter() {
         pack();
     }// </editor-fold>//GEN-END:initComponents
   
-    private void txtcontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcontActionPerformed
+    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
  
-            }//GEN-LAST:event_txtcontActionPerformed
+            }//GEN-LAST:event_txtPasswordActionPerformed
 
     private void chkMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMostrarActionPerformed
 
-       if(String.valueOf(txtcont.getPassword()).equals("******")){
+       if(String.valueOf(txtPassword.getPassword()).equals("******")){
     return; // no hace nada si es placeholder
 }
+       
 
         if(chkMostrar.isSelected()){
-            txtcont.setEchoChar((char)0);
+            txtPassword.setEchoChar((char)0);
         } else {
-            txtcont.setEchoChar('*');
+            txtPassword.setEchoChar('*');
 
     }//GEN-LAST:event_chkMostrarActionPerformed
 }
@@ -190,21 +216,37 @@ txtcont.addFocusListener(new java.awt.event.FocusAdapter() {
 System.exit(0);    }//GEN-LAST:event_BotonSalirActionPerformed
 
     private void BotoningresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotoningresaActionPerformed
-   String usuario = txtusuario.getText();
-    String contraseña = String.valueOf(txtcont.getPassword());
 
-   if((usuario.equals("yumairy") || usuario.equals("laura")) 
-        && contraseña.equals("1234")){
-int nivel = 0;
-        MenuPrincipal menu = new MenuPrincipal(usuario,nivel);
+
+    String usuario = Usuariotxt.getText();
+    String contraseña = String.valueOf(txtPassword.getPassword());
+
+    if (contraseña.equals("******")) {
+        JOptionPane.showMessageDialog(this, "Ingrese la contraseña real");
+        return;
+    }
+
+    String[] datos = validarLogin(usuario, contraseña);
+
+    if (datos != null) {
+
+        int nivel = Integer.parseInt(datos[1]);
+        String nombre = datos[2];
+        String apellido = datos[3];
+
+        // 🔥 MENSAJE BIENVENIDA
+        JOptionPane.showMessageDialog(this,
+                "Bienvenido " + nombre + " " + apellido);
+
+        MenuPrincipal menu = new MenuPrincipal(usuario, nivel, nombre, apellido);
         menu.setVisible(true);
 
-        
-        this.dispose(); // cierra login
+        this.dispose();
 
     } else {
         JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
-    }                                               
+    }
+                   
 
 
     }//GEN-LAST:event_BotoningresaActionPerformed
@@ -238,12 +280,12 @@ int nivel = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonSalir;
     private javax.swing.JButton Botoningresa;
+    private javax.swing.JTextField Usuariotxt;
     private javax.swing.JCheckBox chkMostrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField txtcont;
-    private javax.swing.JTextField txtusuario;
+    private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
 }

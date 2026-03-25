@@ -20,24 +20,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
      * @param nivel
      
      */
-  public MenuPrincipal(String usuario, int nivel) {
+  public MenuPrincipal(String usuario, int nivel, String nombre, String apellido) {
     initComponents();
-    
-    // Configuración de Seguridad [cite: 196, 197]
-    if (nivel == 1) { // Usuario Normal
-        jMenuItem5.setEnabled(false); // De Goma (Gama)
-        jMenuItem6.setEnabled(false); // De Vehículos
-        jMenuItem8.setEnabled(false); // De Ofertas
-        jMenuItem4.setVisible(false); // Oculta Mantenimiento de Usuarios
-    } else { // Administrador (Nivel 0) [cite: 195]
-        jMenuItem4.setVisible(true); // El admin sí puede ver "De Usuario"
+
+    if (nivel == 1) {
+        jMenuItem5.setEnabled(false);
+        jMenuItem6.setEnabled(false);
+        jMenuItem8.setEnabled(false);
+        jMenuItem4.setVisible(false);
+    } else {
+        jMenuItem4.setVisible(true);
     }
 
     setLocationRelativeTo(null);
-    lblBienvenida.setText("Bienvenido/a, " + usuario);
+
+    // 🔥 CAMBIO AQUÍ
+    lblBienvenida.setText("Bienvenido/a, " + nombre + " " + apellido);
+
     lblMensaje.setText("¡Seleccione una opción del menú para comenzar!");
 
-    // Tu diseño personalizado
     jMenuBar1.setOpaque(true);
     jMenuBar1.setBackground(new java.awt.Color(0, 102, 204));
     jMenuBar1.setUI(new javax.swing.plaf.basic.BasicMenuBarUI());
@@ -261,7 +262,8 @@ DeOferta Ofertas = new DeOferta();
         //</editor-fold>
 
         /* Create and display the form */
-java.awt.EventQueue.invokeLater(() -> new MenuPrincipal("Invitado", 1).setVisible(true));    }
+       
+java.awt.EventQueue.invokeLater(() -> new MenuPrincipal("Invitado", 1, "Invitado", "Invitado").setVisible(true));    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MenuSalir;

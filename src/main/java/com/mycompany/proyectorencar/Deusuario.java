@@ -2,18 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+
 package com.mycompany.proyectorencar;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.File;
+import java.util.Scanner;
 
     
-
-
-   
+  
 
 
 /**
@@ -21,16 +22,19 @@ import java.io.IOException;
  * @author Owner
  */
 public class Deusuario extends javax.swing.JFrame {
-    
+
+    private boolean escribiendo = false;
+    private boolean existe = false;
+
 
     // 🔹 AQUÍ VA EL MÉTODO
     public boolean validarUsuario(String user, String pass) {
         try {
-            BufferedReader br = new BufferedReader(new FileReader("usuarios.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("Usuario.txt"));
             String linea;
 
             while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(",");
+                String[] datos = linea.split(";");
 
                 if (datos[0].equals(user) && datos[1].equals(pass)) {
                     return true;
@@ -45,13 +49,7 @@ public class Deusuario extends javax.swing.JFrame {
 
     // resto del código...
     
-   private void guardarUsuario() {
-    JOptionPane.showMessageDialog(this, "Usuario guardado correctamente");
-}
 
-    private void eliminarUsuario(String usuario) {
-    JOptionPane.showMessageDialog(this, "Usuario eliminado: " + usuario);
-}
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Deusuario.class.getName());
 
@@ -61,21 +59,84 @@ public class Deusuario extends javax.swing.JFrame {
     public Deusuario() {
         initComponents();
         
-        ButtonGroup grupo = new ButtonGroup();
-grupo.add(rbNormal);
-grupo.add(rbAdmin);
-    
-   int nivel;
+        lblMensaje.setText("");//
+lblMensaje.setForeground(new java.awt.Color(0, 153, 0)); // verde
 
-if (rbAdmin.isSelected()) {
-    nivel = 0;
-} else {
-    nivel = 1;
+    grupoNivel.add(rbNormal);
+    grupoNivel.add(rbAdmin);
+
+    lblMensaje.setText("");
+
+    // 🔥 AUTOCOMPLETAR MIENTRAS ESCRIBES
+    Usuariotxt.addKeyListener(new java.awt.event.KeyAdapter() {
+        @Override
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            buscarUsuario(Usuariotxt.getText());
+        }
+    });
+
+    // 🔥 TAMBIÉN AL SALIR DEL CAMPO
+   Usuariotxt.addFocusListener(new java.awt.event.FocusAdapter() {
+    @Override
+    public void focusGained(java.awt.event.FocusEvent evt) {
+        if (!escribiendo) {
+            JOptionPane.showMessageDialog(null, "Creando nuevo usuario...");
+            escribiendo = true;
+        }
+    }
+    
+    @Override
+    public void focusLost(java.awt.event.FocusEvent evt) {
+        buscarUsuario(Usuariotxt.getText());
+    }
+});
+    
+}
+private void buscarUsuario(String usuario) {
+
+    if (usuario.isEmpty()) return;
+
+    existe = false; // ⚡ inicializamos al inicio
+
+    try (BufferedReader br = new BufferedReader(new FileReader("Usuario.txt"))) { // try-with-resources cierra automáticamente
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(";");
+
+            if (datos[0].trim().equalsIgnoreCase(usuario.trim())) {
+
+                // ⚡ rellenamos los campos
+                txtPassword.setText(datos[1]);
+                txtNombre.setText(datos[2]);
+                txtApellido.setText(datos[3]);
+                txtCorreo.setText(datos[5]);
+
+                grupoNivel.clearSelection();
+                if (datos[4].trim().equals("0")) {
+                    rbAdmin.setSelected(true);
+                } else if (datos[4].trim().equals("1")) {
+                    rbNormal.setSelected(true);
+                }
+
+                existe = true; // ⚡ usuario encontrado
+                return; // 🔥 salimos del método
+            }
+        }
+
+        // ⚡ si no existe → limpiar campos
+        txtPassword.setText("");
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtCorreo.setText("");
+        grupoNivel.clearSelection();
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al buscar usuario");
+    }
 }
         
-        
-    }
-   
+ 
     
 
     /**
@@ -93,7 +154,7 @@ if (rbAdmin.isSelected()) {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
+        Usuariotxt = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -104,14 +165,20 @@ if (rbAdmin.isSelected()) {
         btnGuardar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        nivel = new javax.swing.JLabel();
         rbNormal = new javax.swing.JRadioButton();
         rbAdmin = new javax.swing.JRadioButton();
+        lblMensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jPanel1KeyReleased(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Arial", 3, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 204));
@@ -120,6 +187,12 @@ if (rbAdmin.isSelected()) {
         jLabel2.setText("USUARIO");
 
         jLabel3.setText("CONTRASEÑA");
+
+        Usuariotxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                UsuariotxtKeyPressed(evt);
+            }
+        });
 
         jLabel4.setText("NOMBRE");
 
@@ -147,12 +220,12 @@ if (rbAdmin.isSelected()) {
         btnEliminar.setText("ELIMINAR");
         btnEliminar.addActionListener(this::btnEliminarActionPerformed);
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel7.setText("NIVEL DE ACCESO:");
-        jLabel7.addAncestorListener(new javax.swing.event.AncestorListener() {
+        nivel.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        nivel.setForeground(new java.awt.Color(51, 51, 51));
+        nivel.setText("NIVEL DE ACCESO:");
+        nivel.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                jLabel7AncestorAdded(evt);
+                nivelAncestorAdded(evt);
             }
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -169,6 +242,8 @@ if (rbAdmin.isSelected()) {
         rbAdmin.setForeground(new java.awt.Color(51, 51, 51));
         rbAdmin.setText("Administrador");
 
+        lblMensaje.setText("lblMensaje");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -181,7 +256,7 @@ if (rbAdmin.isSelected()) {
                             .addComponent(txtCorreo)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
+                                    .addComponent(Usuariotxt, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel4)
                                     .addComponent(txtNombre))
@@ -198,25 +273,28 @@ if (rbAdmin.isSelected()) {
                                 .addGap(8, 8, 8)
                                 .addComponent(jLabel6))
                             .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(64, 64, 64)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(70, 70, 70)
-                                        .addComponent(jLabel7))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(24, 24, 24)
-                                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(35, 35, 35)
                                         .addComponent(rbNormal)
-                                        .addGap(67, 67, 67)
+                                        .addGap(73, 73, 73)
                                         .addComponent(rbAdmin))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(25, 25, 25)
                                         .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(65, 65, 65)
                                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addContainerGap(80, Short.MAX_VALUE))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(117, 117, 117)
+                        .addComponent(nivel)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -227,7 +305,7 @@ if (rbAdmin.isSelected()) {
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Usuariotxt, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -244,12 +322,14 @@ if (rbAdmin.isSelected()) {
                 .addComponent(jLabel6)
                 .addGap(30, 30, 30)
                 .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblMensaje)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nivel)
                     .addComponent(rbNormal)
-                    .addComponent(rbAdmin)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                    .addComponent(rbAdmin))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -277,7 +357,7 @@ if (rbAdmin.isSelected()) {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -288,7 +368,9 @@ if (rbAdmin.isSelected()) {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -302,40 +384,110 @@ if (rbAdmin.isSelected()) {
         // TODO add your handling code here:
     }//GEN-LAST:event_rbNormalActionPerformed
 
-    private void jLabel7AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel7AncestorAdded
+    private void nivelAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_nivelAncestorAdded
         // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel7AncestorAdded
+    }//GEN-LAST:event_nivelAncestorAdded
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
-    if (txtUsuario.getText().isEmpty() ||
-        txtPassword.getText().isEmpty() ||
-        txtNombre.getText().isEmpty() ||
-        txtApellido.getText().isEmpty() ||
-        txtCorreo.getText().isEmpty() ||
-        (!rbNormal.isSelected() && !rbAdmin.isSelected())) {
+       
+    // 🔹 1. VALIDAR CAMPOS
+   if (Usuariotxt.getText().isEmpty() ||
+    String.valueOf(txtPassword.getPassword()).isEmpty() ||
+    txtNombre.getText().isEmpty() ||
+    txtApellido.getText().isEmpty() ||
+    txtCorreo.getText().isEmpty()) {
 
-        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
+    JOptionPane.showMessageDialog(this, "Complete todos los campos");
+    return;
+}
+
+    // 🔹 2. OBTENER NIVEL
+    String nivel = "";
+
+    if (rbAdmin.isSelected()) {
+        nivel = "0";
+    } else if (rbNormal.isSelected()) {
+        nivel = "1";
+    } else {
+        JOptionPane.showMessageDialog(this, "Seleccione nivel de acceso");
         return;
     }
 
-    guardarUsuario();
+    try {
+        // 🔹 3. CREAR / VERIFICAR ARCHIVO
+        File f = new File("Usuario.txt");
 
+        if (!f.exists()) {
+            f.createNewFile();
+        }
+
+        // 🔹 4. VALIDAR USUARIO DUPLICADO (AQUÍ SÍ SIRVE SCANNER 🔥)
+        Scanner sc = new Scanner(f);
+        boolean existe = false;
+
+        while (sc.hasNextLine()) {
+            String linea = sc.nextLine();
+            String[] datos = linea.split(";");
+
+            if (datos[0].equals(Usuariotxt.getText())) {
+                existe = true;
+                break;
+            }
+        }
+
+        sc.close();
+
+        if (existe) {
+            JOptionPane.showMessageDialog(this, "El usuario ya existe");
+            return;
+        }
+
+        // 🔹 5. GUARDAR
+    FileWriter fw = new FileWriter(f, true);
+
+String password = String.valueOf(txtPassword.getPassword());
+
+fw.write(
+    Usuariotxt.getText() + ";" +
+    password + ";" +
+    txtNombre.getText() + ";" +
+    txtApellido.getText() + ";" +
+    nivel + ";" +
+    txtCorreo.getText() + System.lineSeparator()
+);
+
+fw.close();
+        JOptionPane.showMessageDialog(this, "Usuario guardado correctamente");
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar");
+    }
+buscarUsuario(Usuariotxt.getText());
+
+
+//mensaje
+
+JOptionPane.showMessageDialog(this, "Modificando usuario existente...");
+    
+    if (existe) {
+    JOptionPane.showMessageDialog(this, "Usuario modificado correctamente");
+} else {
+    JOptionPane.showMessageDialog(this, "Usuario creado correctamente");
+}
     
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+    
 
-    int nivel;
-
-    if (rbAdmin.isSelected()) {
-        nivel = 0; // admin
-    } else {
-        nivel = 1; // normal
+    if (Usuariotxt.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese el usuario a eliminar");
+        return;
     }
 
-    if (nivel == 1) {
-        JOptionPane.showMessageDialog(this, "No tienes permiso para eliminar");
+    if (!rbAdmin.isSelected()) {
+        JOptionPane.showMessageDialog(this, "Solo el administrador puede eliminar");
         return;
     }
 
@@ -345,13 +497,19 @@ if (rbAdmin.isSelected()) {
             JOptionPane.YES_NO_OPTION);
 
     if (opcion == JOptionPane.YES_OPTION) {
-        eliminarUsuario(txtUsuario.getText());
+        eliminarUsuario(Usuariotxt.getText()); // 👈 LLAMADA AL MÉTODO
     }
+
 
       }//GEN-LAST:event_btnEliminarActionPerformed
 
+    
+    
+    
+    
+    
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-    txtUsuario.setText("");
+    Usuariotxt.setText("");
     txtPassword.setText("");
     txtNombre.setText("");
     txtApellido.setText("");
@@ -360,7 +518,55 @@ grupoNivel.clearSelection();
 
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    private void jPanel1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel1KeyReleased
+     
+        
+    }//GEN-LAST:event_jPanel1KeyReleased
 
+    private void UsuariotxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_UsuariotxtKeyPressed
+           
+    if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+        buscarUsuario(Usuariotxt.getText());
+    
+    }
+       }//GEN-LAST:event_UsuariotxtKeyPressed
+
+// 👇 AQUÍ ABAJO, FUERA DE TODO
+private void eliminarUsuario(String usuario) {
+
+    try {
+        BufferedReader br = new BufferedReader(new FileReader("Usuario.txt"));
+        String linea;
+        String contenido = "";
+
+        boolean encontrado = false;
+
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(";");
+
+            if (!datos[0].equals(usuario)) {
+         contenido += linea + System.lineSeparator();         
+            } else {
+                encontrado = true;
+            }
+        }
+
+        br.close();
+
+        FileWriter fw = new FileWriter("Usuario.txt");
+        fw.write(contenido);
+        fw.close();
+
+        if (encontrado) {
+            JOptionPane.showMessageDialog(this, "Usuario eliminado correctamente");
+        } else {
+            JOptionPane.showMessageDialog(this, "Usuario no encontrado");
+        }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar");
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -387,6 +593,7 @@ grupoNivel.clearSelection();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField Usuariotxt;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
@@ -397,16 +604,16 @@ grupoNivel.clearSelection();
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblMensaje;
+    private javax.swing.JLabel nivel;
     private javax.swing.JRadioButton rbAdmin;
     private javax.swing.JRadioButton rbNormal;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JPasswordField txtPassword;
-    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 
     
