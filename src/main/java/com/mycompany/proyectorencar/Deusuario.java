@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.File;
-import java.util.Scanner;
 
     
   
@@ -24,6 +23,11 @@ import java.util.Scanner;
 public class Deusuario extends javax.swing.JFrame {
 
     private boolean existe = false;
+private int nivelUsuario;
+private String usuario;
+private String nombre;
+private String apellido;
+
 
 
     // 🔹 AQUÍ VA EL MÉTODO
@@ -55,8 +59,13 @@ public class Deusuario extends javax.swing.JFrame {
     /**
      * Creates new form Deusuario
      */
-    public Deusuario() {
-        initComponents();
+    public Deusuario(String usuario, int nivel, String nombre, String apellido) {
+    initComponents();
+
+    this.usuario = usuario;
+    this.nivelUsuario = nivel;
+    this.nombre = nombre;
+    this.apellido = apellido;
         
         lblMensaje.setText("");//
 lblMensaje.setForeground(new java.awt.Color(0, 153, 0)); // verde
@@ -66,7 +75,7 @@ lblMensaje.setForeground(new java.awt.Color(0, 153, 0)); // verde
 
     lblMensaje.setText("");
 
-    // 🔥 AUTOCOMPLETAR MIENTRAS ESCRIBES
+    // AUTOCOMPLETAR MIENTRAS ESCRIBES
     Usuariotxt.addKeyListener(new java.awt.event.KeyAdapter() {
         @Override
         public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -74,18 +83,30 @@ lblMensaje.setForeground(new java.awt.Color(0, 153, 0)); // verde
         }
     });
 
-    // 🔥 TAMBIÉN AL SALIR DEL CAMPO
+    //  TAMBIÉN AL SALIR DEL CAMPO
   Usuariotxt.addKeyListener(new java.awt.event.KeyAdapter() {
     @Override
     public void keyReleased(java.awt.event.KeyEvent evt) {
         buscarUsuario(Usuariotxt.getText());
 
-        if (!existe) {
+        if (!existe) {//si existe o no dice esta informacion
             lblMensaje.setText("Creando nuevo usuario...");
             lblMensaje.setForeground(new java.awt.Color(0, 153, 255));
         }
     }
 });
+  
+  //  evitar cierre directo
+    this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+    this.setResizable(false);
+
+    //  EVENTO DE LA X 
+    this.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            volverAlMenu();
+        }
+    });
     
 }
 private void buscarUsuario(String usuario) {
@@ -173,6 +194,8 @@ private void buscarUsuario(String usuario) {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
+        setType(java.awt.Window.Type.UTILITY);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -243,8 +266,6 @@ private void buscarUsuario(String usuario) {
         rbAdmin.setForeground(new java.awt.Color(51, 51, 51));
         rbAdmin.setText("Administrador");
 
-        lblMensaje.setText("lblMensaje");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -286,7 +307,7 @@ private void buscarUsuario(String usuario) {
                                         .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(65, 65, 65)
                                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(80, Short.MAX_VALUE))))
+                        .addContainerGap(83, Short.MAX_VALUE))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -330,7 +351,7 @@ private void buscarUsuario(String usuario) {
                     .addComponent(nivel)
                     .addComponent(rbNormal)
                     .addComponent(rbAdmin))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -349,29 +370,27 @@ private void buscarUsuario(String usuario) {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(70, 70, 70)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap(56, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -391,7 +410,7 @@ private void buscarUsuario(String usuario) {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
-    // 🔹 VALIDAR CAMPOS
+    //  VALIDAR CAMPOS
     if (Usuariotxt.getText().isEmpty() ||
         String.valueOf(txtPassword.getPassword()).isEmpty() ||
         txtNombre.getText().isEmpty() ||
@@ -483,12 +502,11 @@ private void buscarUsuario(String usuario) {
         JOptionPane.showMessageDialog(this, "Ingrese el usuario a eliminar");
         return;
     }
-
-    if (!rbAdmin.isSelected()) {
-        JOptionPane.showMessageDialog(this, "Solo el administrador puede eliminar");
-        return;
-    }
-
+//codigo para que solo permita que los administradora elimine y si no es admin saca esta informacion
+    if (nivelUsuario != 0) {
+    JOptionPane.showMessageDialog(this, "Solo el administrador puede eliminar");
+    return;
+}
     int opcion = JOptionPane.showConfirmDialog(this,
             "¿Seguro que deseas eliminar este usuario?",
             "Confirmar",
@@ -565,6 +583,12 @@ private void eliminarUsuario(String usuario) {
         JOptionPane.showMessageDialog(this, "Error al eliminar");
     }
 }
+
+private void volverAlMenu() {
+    MenuPrincipal menu = new MenuPrincipal(usuario, nivelUsuario, nombre, apellido);
+    menu.setVisible(true);
+    this.dispose();
+}
     /**
      * @param args the command line arguments
      */
@@ -587,7 +611,9 @@ private void eliminarUsuario(String usuario) {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Deusuario().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> 
+    new Deusuario("admin", 0, "Admin", "Principal").setVisible(true)
+);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

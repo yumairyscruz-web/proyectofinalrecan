@@ -66,7 +66,7 @@ txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
             String[] datos = linea.split(";");
 
             if (datos[0].equals(user) && datos[1].equals(pass)) {
-                return datos; // 🔥 devuelve TODO
+                return datos; // devuelve TODO
             }
         }
 
@@ -100,6 +100,8 @@ txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
         chkMostrar = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        setType(java.awt.Window.Type.UTILITY);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -131,7 +133,7 @@ txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(103, Short.MAX_VALUE)
+                .addContainerGap(109, Short.MAX_VALUE)
                 .addComponent(Botoningresa, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
                 .addComponent(BotonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,15 +182,11 @@ txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -226,26 +224,25 @@ System.exit(0);    }//GEN-LAST:event_BotonSalirActionPerformed
         return;
     }
 
-    String[] datos = validarLogin(usuario, contraseña);
+   String[] datos = validarLogin(usuario, contraseña);
 
-    if (datos != null) {
+if (datos != null) {
 
-        int nivel = Integer.parseInt(datos[1]);
-        String nombre = datos[2];
-        String apellido = datos[3];
+    int nivel = Integer.parseInt(datos[4]); // ✅ CORRECTO
+    String nombre = datos[2];
+    String apellido = datos[3];
 
-        // 🔥 MENSAJE BIENVENIDA
-        JOptionPane.showMessageDialog(this,
-                "Bienvenido " + nombre + " " + apellido);
+    JOptionPane.showMessageDialog(this,
+            "Bienvenido " + nombre + " " + apellido);
 
-        MenuPrincipal menu = new MenuPrincipal(usuario, nivel, nombre, apellido);
-        menu.setVisible(true);
+    MenuPrincipal menu = new MenuPrincipal(usuario, nivel, nombre, apellido);
+    menu.setVisible(true);
 
-        this.dispose();
+    this.dispose();
 
-    } else {
-        JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
-    }
+} else {
+    JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos");
+}
                    
 
 

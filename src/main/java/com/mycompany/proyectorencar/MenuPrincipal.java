@@ -9,8 +9,11 @@ package com.mycompany.proyectorencar;
  * @author Owner
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-    
- 
+    private int nivelUsuario;
+    private String usuario;
+private String nombre;
+private String apellido;
+
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuPrincipal.class.getName());
 
@@ -22,6 +25,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
      */
   public MenuPrincipal(String usuario, int nivel, String nombre, String apellido) {
     initComponents();
+        this.nivelUsuario = nivel; // IMPORTANTE
+this.usuario = usuario;
+this.nombre = nombre;
+this.apellido = apellido;
+    
 //codigo para inabilitad a usuario a entra vehiculo,goma,oferta
     if (nivel == 1) {
         jMenuItem5.setEnabled(false);
@@ -82,6 +90,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         MenuSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -129,6 +138,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("De Goma");
+        jMenuItem5.setActionCommand("De Gama");
         jMenuItem5.addActionListener(this::jMenuItem5ActionPerformed);
         jMenu2.add(jMenuItem5);
 
@@ -178,6 +188,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu4.setText("Opciones");
 
         jMenuItem14.setText("Cambiar de Usuario");
+        jMenuItem14.addActionListener(this::jMenuItem14ActionPerformed);
         jMenu4.add(jMenuItem14);
 
         MenuSalir.setText("Salir");
@@ -206,8 +217,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
 System.exit(0);    }//GEN-LAST:event_MenuSalirActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-   Deusuario usuario = new Deusuario();
-        usuario.setVisible(true);
+        Deusuario usuarioForm = new Deusuario(usuario, nivelUsuario, nombre, apellido);
+usuarioForm.setVisible(true);
+
 
         
         this.dispose();    }//GEN-LAST:event_jMenuItem4ActionPerformed
@@ -239,6 +251,10 @@ DeOferta Ofertas = new DeOferta();
 
         
         this.dispose();    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     /**
      * @param args the command line arguments
