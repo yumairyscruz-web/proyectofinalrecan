@@ -4,6 +4,8 @@
  */
 package com.mycompany.proyectorencar;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Owner
@@ -119,7 +121,7 @@ this.apellido = apellido;
                 .addComponent(lblBienvenida, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(0, 0, 255));
@@ -253,7 +255,23 @@ DeOferta Ofertas = new DeOferta();
         this.dispose();    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-        // TODO add your handling code here:
+ int opcion = JOptionPane.showConfirmDialog(
+            this, 
+            "¿Deseas cambiar de usuario?", 
+            "Cerrar sesión", 
+            JOptionPane.YES_NO_OPTION
+    );
+
+    if (opcion == JOptionPane.YES_OPTION) {
+        // Abrir formulario Login
+        Login login = new Login();
+        login.setVisible(true);
+
+        // Cerrar ventana actual
+        this.dispose();
+    }        
+        
+        
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
     /**
