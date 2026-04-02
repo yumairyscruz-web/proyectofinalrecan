@@ -144,7 +144,7 @@ private void buscarUsuario(String usuario) {
             }
         }
 
-        // 🔴 NO EXISTE
+        // NO EXISTE
         txtPassword.setText("");
         txtNombre.setText("");
         txtApellido.setText("");
@@ -311,11 +311,11 @@ private void buscarUsuario(String usuario) {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(117, 117, 117)
-                        .addComponent(nivel)))
+                        .addComponent(nivel))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(91, 91, 91)
+                        .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -345,8 +345,8 @@ private void buscarUsuario(String usuario) {
                 .addGap(30, 30, 30)
                 .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblMensaje)
-                .addGap(31, 31, 31)
+                .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nivel)
                     .addComponent(rbNormal)
@@ -421,13 +421,13 @@ private void buscarUsuario(String usuario) {
         return;
     }
 
-    // 🔹 NIVEL
+    //  NIVEL
     String nivel = "";
 
     if (rbAdmin.isSelected()) {
         nivel = "0";
     } else if (rbNormal.isSelected()) {
-        nivel = "1";
+       nivel = "1";
     } else {
         JOptionPane.showMessageDialog(this, "Seleccione nivel");
         return;
@@ -467,7 +467,7 @@ private void buscarUsuario(String usuario) {
 
         br.close();
 
-        // 🔹 SI NO EXISTE → AGREGAR
+        // SI NO EXISTE → AGREGAR
         if (!encontrado) {
             contenido.append(nuevo).append("\n");
         }
@@ -476,7 +476,7 @@ private void buscarUsuario(String usuario) {
         fw.write(contenido.toString());
         fw.close();
 
-        // 🔹 MENSAJE
+        //  MENSAJE
         if (encontrado) {
             JOptionPane.showMessageDialog(this, "Usuario modificado correctamente");
             lblMensaje.setText("Usuario modificado correctamente");
@@ -486,12 +486,24 @@ private void buscarUsuario(String usuario) {
         }
 
         lblMensaje.setForeground(new java.awt.Color(0, 153, 0));
+        // limpiar mensaje después de guardar
+          new javax.swing.Timer(2000, e -> {
+           lblMensaje.setText("");
+              }).start();
 
     } catch (IOException e) {
         JOptionPane.showMessageDialog(this, "Error al guardar");
     }
 
     buscarUsuario(Usuariotxt.getText());
+    
+    Usuariotxt.setText("");
+txtPassword.setText("");
+txtNombre.setText("");
+txtApellido.setText("");
+txtCorreo.setText("");
+
+grupoNivel.clearSelection();
 
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -513,7 +525,7 @@ private void buscarUsuario(String usuario) {
             JOptionPane.YES_NO_OPTION);
 
     if (opcion == JOptionPane.YES_OPTION) {
-        eliminarUsuario(Usuariotxt.getText()); // 👈 LLAMADA AL MÉTODO
+        eliminarUsuario(Usuariotxt.getText()); //  LLAMADA AL MÉTODO
     }
 
 
@@ -547,7 +559,7 @@ grupoNivel.clearSelection();
     }
        }//GEN-LAST:event_UsuariotxtKeyPressed
 
-// 👇 AQUÍ ABAJO, FUERA DE TODO
+//  AQUÍ ABAJO, FUERA DE TODO
 private void eliminarUsuario(String usuario) {
 
     try {

@@ -1,6 +1,7 @@
 yumairy;1234;yumairy;cruz;0;yumairycruz@gmail.com
 laura;1234;laura;gutierez;0;laura@gmail.com
-carlos;1234;carlos;care;1;
+carlos;1234;carlos;care;1;carlos@gmail.com
 maria;123;maria;castillo;1;maria@gmail.com
 MARI18;1234;MARIO;POPOTEUR;1;MARIO1819@GMAIL.COM
 frasis;1234;franscisco;nuñez;1;francis@gmail.com
+fmj;1234;fausto antonio;martinez;1;fmj@gmail.com

@@ -4,21 +4,56 @@
  */
 package com.mycompany.proyectorencar;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Owner
  */
 public class DeGoma extends javax.swing.JFrame {
     
+    private String usuario;
+private int nivelUsuario;
+private String nombre;
+private String apellido;
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DeGoma.class.getName());
 
     /**
      * Creates new form DeGoma
+     * @param usuario
+     * @param nivel
+     * @param nombre
+     * @param apellido
      */
-    public DeGoma() {
-        initComponents();
-    }
+  public DeGoma(String usuario, int nivel, String nombre, String apellido) {
+    initComponents();
 
+    this.usuario = usuario;
+    this.nivelUsuario = nivel;
+    this.nombre = nombre;
+    this.apellido = apellido;
+
+    this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+
+    this.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            volverAlMenu();
+        }
+    });
+}
+
+    private void volverAlMenu() {
+    new MenuPrincipal(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+    this.dispose();
+}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,21 +63,254 @@ public class DeGoma extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        gamastxt = new javax.swing.JTextField();
+        txtDescripcion = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
+        txtPrecio = new javax.swing.JTextField();
+        lblMensaje = new javax.swing.JLabel();
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Mantenimiento de GAMA");
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Id del Gama:");
+
+        gamastxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                gamastxtKeyReleased(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Descripcion:");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Precio:");
+
+        btnGuardar.setBackground(new java.awt.Color(0, 0, 255));
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
+
+        lblMensaje.setText("jLabel4");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(45, 45, 45)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(44, 44, 44)
+                                .addComponent(jLabel3)
+                                .addGap(79, 79, 79)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(gamastxt, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addComponent(lblMensaje)))
+                .addContainerGap(91, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(gamastxt, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblMensaje)
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(53, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 470, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 358, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+
+
+    //  VALIDAR PRIMERO
+    if (gamastxt.getText().isEmpty() ||
+        txtDescripcion.getText().isEmpty() ||
+        txtPrecio.getText().isEmpty()) {
+
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios");
+        return;
+    }
+
+    int id;
+    double precio;
+
+    try {
+        id = Integer.parseInt(gamastxt.getText());
+        precio = Double.parseDouble(txtPrecio.getText());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "ID y Precio deben ser numéricos");
+        return;
+    }
+
+    // ✅ AHORA SÍ GUARDAR
+    String desc = txtDescripcion.getText();
+
+    File archivo = new File("gamas.txt");
+    StringBuilder contenido = new StringBuilder();
+    boolean actualizado = false;
+
+    try {
+        if (archivo.exists()) {
+            BufferedReader br = new BufferedReader(new FileReader(archivo));
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+
+                if (datos[0].equals(String.valueOf(id))) {
+                    contenido.append(id + "," + desc + "," + precio + "\n");
+                    actualizado = true;
+                } else {
+                    contenido.append(linea + "\n");
+                }
+            }
+            br.close();
+        }
+
+        if (!actualizado) {
+            contenido.append(id + "," + desc + "," + precio + "\n");
+        }
+
+        FileWriter fw = new FileWriter(archivo);
+        fw.write(contenido.toString());
+        fw.close();
+
+        // LIMPIAR CAMPOS
+               gamastxt.setText("");
+                 txtDescripcion.setText("");
+                txtPrecio.setText("");
+
+    } 
+   catch (IOException e) {
+    JOptionPane.showMessageDialog(null, "Error con el archivo: " + e.getMessage());
+}
+    
+    
+
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void gamastxtKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_gamastxtKeyReleased
+
+
+    String idBuscado = gamastxt.getText();
+    if (idBuscado.isEmpty()) return;
+
+    boolean existe = false;
+
+    try (BufferedReader br = new BufferedReader(new FileReader("gamas.txt"))) {
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(",");
+
+            if (datos[0].equals(idBuscado)) {
+                txtDescripcion.setText(datos[1]);
+                txtPrecio.setText(datos[2]);
+
+                lblMensaje.setText("Modificando...");
+                lblMensaje.setForeground(new java.awt.Color(255, 153, 0));
+
+                existe = true;
+                break;
+            }
+        }
+
+        if (!existe) {
+            txtDescripcion.setText("");
+            txtPrecio.setText("");
+
+            lblMensaje.setText("Creando...");
+            lblMensaje.setForeground(new java.awt.Color(0, 153, 255));
+        }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error con el archivo");
+    }
+
+        
+    }//GEN-LAST:event_gamastxtKeyReleased
 
     /**
      * @param args the command line arguments
@@ -66,9 +334,22 @@ public class DeGoma extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new DeGoma().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> 
+    new DeGoma("admin", 1, "Juan", "Perez").setVisible(true)
+);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JTextField gamastxt;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblMensaje;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }

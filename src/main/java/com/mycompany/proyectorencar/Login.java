@@ -206,7 +206,7 @@ txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
     private void chkMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMostrarActionPerformed
 
        if(String.valueOf(txtPassword.getPassword()).equals("******")){
-    return; // no hace nada si es placeholder
+    return; // muestra la contraseñaen en el login
 }
        
 
@@ -235,7 +235,7 @@ System.exit(0);    }//GEN-LAST:event_BotonSalirActionPerformed
 
 if (datos != null) {
 
-    int nivel = Integer.parseInt(datos[4]); // ✅ CORRECTO
+    int nivel = Integer.parseInt(datos[4]); // 
     String nombre = datos[2];
     String apellido = datos[3];
 

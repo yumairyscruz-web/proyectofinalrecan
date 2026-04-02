@@ -227,8 +227,9 @@ usuarioForm.setVisible(true);
         this.dispose();    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-   DeGoma goma = new DeGoma();
-        goma.setVisible(true);
+   DeGoma goma = new DeGoma(usuario, nivelUsuario, nombre, apellido);
+    goma.setVisible(true);
+   
 
         
         this.dispose();    }//GEN-LAST:event_jMenuItem5ActionPerformed
