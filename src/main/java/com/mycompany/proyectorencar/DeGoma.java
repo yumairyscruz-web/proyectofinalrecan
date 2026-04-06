@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class DeGoma extends javax.swing.JFrame {
     
-    private String usuario;
+    private String usuario;//ir para atras a menu a querer salir 
 private int nivelUsuario;
 private String nombre;
 private String apellido;
@@ -33,7 +33,7 @@ private String apellido;
      */
   public DeGoma(String usuario, int nivel, String nombre, String apellido) {
     initComponents();
-
+//ir para atras a menu a querer salir
     this.usuario = usuario;
     this.nivelUsuario = nivel;
     this.nombre = nombre;
@@ -74,6 +74,8 @@ private String apellido;
         btnGuardar = new javax.swing.JButton();
         txtPrecio = new javax.swing.JTextField();
         lblMensaje = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -112,37 +114,53 @@ private String apellido;
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
-        lblMensaje.setText("jLabel4");
+        btnEliminar.setBackground(new java.awt.Color(153, 153, 153));
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+
+        btnLimpiar.setBackground(new java.awt.Color(0, 204, 0));
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(gamastxt, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(44, 44, 44)
-                                .addComponent(jLabel3)
-                                .addGap(79, 79, 79)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
+                                    .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addComponent(gamastxt, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(62, 62, 62)
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(lblMensaje)))
-                .addContainerGap(91, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(66, 66, 66))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,14 +174,17 @@ private String apellido;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblMensaje)
-                .addGap(19, 19, 19)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -256,6 +277,9 @@ private String apellido;
         FileWriter fw = new FileWriter(archivo);
         fw.write(contenido.toString());
         fw.close();
+        
+        JOptionPane.showMessageDialog(this, "Gama guardada correctamente");
+
 
         // LIMPIAR CAMPOS
                gamastxt.setText("");
@@ -312,6 +336,76 @@ private String apellido;
         
     }//GEN-LAST:event_gamastxtKeyReleased
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+if (gamastxt.getText().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Ingrese el código de la goma a eliminar");
+    return;
+}
+
+// 🔒 SOLO ADMIN
+if (nivelUsuario != 0) {
+    JOptionPane.showMessageDialog(this, "Solo el administrador puede eliminar");
+    return;
+}
+
+// ⚠️ CONFIRMACIÓN
+int opcion = JOptionPane.showConfirmDialog(this,
+        "¿Seguro que deseas eliminar esta goma?",
+        "Confirmar",
+        JOptionPane.YES_NO_OPTION);
+
+if (opcion == JOptionPane.YES_OPTION) {
+    eliminarGoma(gamastxt.getText());
+}        
+        
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+ gamastxt.setText("");
+        txtDescripcion.setText("");
+        txtPrecio.setText("");
+        lblMensaje.setText("");        
+        
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+private void eliminarGoma(String codigo) {
+
+    File f = new File("gomas.txt");
+    StringBuilder contenido = new StringBuilder();
+
+    try {
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+
+            linea = linea.trim();
+            if (linea.isEmpty()) continue;
+
+            String[] datos = linea.split(";");
+
+            if (!datos[0].equalsIgnoreCase(codigo)) {
+                contenido.append(linea).append("\n");
+            }
+        }
+
+        br.close();
+
+        FileWriter fw = new FileWriter(f);
+        fw.write(contenido.toString());
+        fw.close();
+
+        JOptionPane.showMessageDialog(this, "Goma eliminada correctamente");
+
+        //  LIMPIAR
+        gamastxt.setText("");
+        txtDescripcion.setText("");
+        txtPrecio.setText("");
+        lblMensaje.setText("");
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar");
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -335,12 +429,14 @@ private String apellido;
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> 
-    new DeGoma("admin", 1, "Juan", "Perez").setVisible(true)
+    new DeGoma("Invitado", 1, "Invitado", "Invitado").setVisible(true)
 );
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JTextField gamastxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

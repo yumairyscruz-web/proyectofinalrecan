@@ -4,20 +4,57 @@
  */
 package com.mycompany.proyectorencar;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Owner
  */
 public class DeCliente extends javax.swing.JFrame {
     
+    private String usuario;//ir para atras a menu a querer salir 
+private int nivelUsuario;
+private String nombre;
+private String apellido;
+    
+    
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DeCliente.class.getName());
 
     /**
      * Creates new form DeCliente
+     * @param usuario
+     * @param nivel
+     * @param nombre
+     * @param apellido
      */
-    public DeCliente() {
+    public DeCliente(String usuario, int nivel, String nombre, String apellido) {
         initComponents();
+        
+        //ir para atras a menu a querer salir
+    this.usuario = usuario;
+    this.nivelUsuario = nivel;
+    this.nombre = nombre;
+    this.apellido = apellido;
+
+    this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+
+    this.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            volverAlMenu();
+        }
+    });
     }
+    
+     private void volverAlMenu() {
+    new MenuPrincipal(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+    this.dispose();
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,22 +65,446 @@ public class DeCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField3 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
+        jTextField7 = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        lblMensaje = new javax.swing.JLabel();
+        txtCedula = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        txtApellido = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        txtTelefono = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        txtDireccion = new javax.swing.JTextField();
+        btnGuardar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+
+        jTextField3.setText("jTextField1");
+
+        jTextField5.setText("jTextField1");
+
+        jTextField7.setText("jTextField1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Mantenimiento del Clientes");
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Cedula:");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Nombre:");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Apellido:");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setText("Correo Electronico:");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setText("Teléfono:");
+
+        txtCedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCedulaKeyReleased(evt);
+            }
+        });
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setText("Direccion:");
+
+        btnGuardar.setBackground(new java.awt.Color(0, 0, 255));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
+
+        btnEliminar.setBackground(new java.awt.Color(153, 153, 153));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+
+        btnLimpiar.setBackground(new java.awt.Color(0, 204, 0));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(103, 103, 103)
+                .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(59, 59, 59)
+                                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel4)
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel3)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(jLabel6))
+                                                .addGap(39, 39, 39)
+                                                .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                                .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(70, 70, 70))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(78, 78, 78)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtCedulaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedulaKeyReleased
+   
+    String cedula = txtCedula.getText();
+if (cedula.isEmpty()) return;
+
+boolean existe = false;
+File archivo = new File("clientes.txt");
+
+try {
+
+    // Crear archivo si no existe
+    if (!archivo.exists()) {
+        archivo.createNewFile();
+    }
+
+    BufferedReader br = new BufferedReader(new FileReader(archivo));
+    String linea;
+
+    while ((linea = br.readLine()) != null) {
+
+        linea = linea.trim();
+        if (linea.isEmpty()) continue;
+
+        String[] datos = linea.split(";");
+
+             if (datos.length >= 6 && datos[0].trim().equals(cedula.trim())) {
+            txtNombre.setText(datos[1]);
+            txtApellido.setText(datos[2]);
+            txtDireccion.setText(datos[3]);
+            txtEmail.setText(datos[4]);
+            txtTelefono.setText(datos[5]);
+
+            lblMensaje.setText("Modificando");
+            lblMensaje.setForeground(new java.awt.Color(255, 153, 0));
+
+            existe = true;
+            break;
+        }
+    }
+
+    br.close();
+
+    if (!existe) {
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtDireccion.setText("");
+        txtEmail.setText("");
+        txtTelefono.setText("");
+
+        lblMensaje.setText("Creando");
+        lblMensaje.setForeground(new java.awt.Color(0, 153, 255));
+    }
+
+} catch (IOException e) {
+    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+}
+   
+     
+    
+    
+    }//GEN-LAST:event_txtCedulaKeyReleased
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        
+    // VALIDAR CAMPOS
+    if (txtCedula.getText().isEmpty() ||
+        txtNombre.getText().isEmpty() ||
+        txtApellido.getText().isEmpty() ||
+        txtDireccion.getText().isEmpty() ||
+        txtTelefono.getText().isEmpty()) {
+
+        JOptionPane.showMessageDialog(this, "Complete todos los campos");
+        return;
+    }
+
+    // VALIDAR NÚMEROS
+    if (!txtCedula.getText().matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "La cédula debe ser numérica");
+        return;
+    }
+
+    if (!txtTelefono.getText().matches("\\d+")) {
+        JOptionPane.showMessageDialog(this, "El teléfono debe ser numérico");
+        return;
+    }
+
+    try {
+        File f = new File("clientes.txt");
+
+        if (!f.exists()) {
+            f.createNewFile();
+        }
+
+        // NUEVO REGISTRO (igual que usuario)
+        String nuevo =
+                txtCedula.getText() + ";" +
+                txtNombre.getText() + ";" +
+                txtApellido.getText() + ";" +
+                txtDireccion.getText() + ";" +
+                txtEmail.getText() + ";" +
+                txtTelefono.getText();
+
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        String linea;
+        StringBuilder contenido = new StringBuilder();
+
+        boolean encontrado = false;
+
+        while ((linea = br.readLine()) != null) {
+
+            linea = linea.trim();
+            if (linea.isEmpty()) continue;
+
+            String[] datos = linea.split(";");
+
+            if (datos[0].equalsIgnoreCase(txtCedula.getText())) {
+                contenido.append(nuevo).append("\n"); // REEMPLAZA
+                encontrado = true;
+            } else {
+                contenido.append(linea).append("\n");
+            }
+        }
+
+        br.close();
+
+        // SI NO EXISTE → AGREGA
+        if (!encontrado) {
+            contenido.append(nuevo).append("\n");
+        }
+
+        FileWriter fw = new FileWriter(f);
+        fw.write(contenido.toString());
+        fw.close();
+
+        // MENSAJES (igual que usuario)
+        if (encontrado) {
+            JOptionPane.showMessageDialog(this, "Cliente modificado correctamente");
+            lblMensaje.setText("Cliente modificado");
+        } else {
+            JOptionPane.showMessageDialog(this, "Cliente creado correctamente");
+            lblMensaje.setText("Cliente creado");
+        }
+
+        lblMensaje.setForeground(new java.awt.Color(0, 153, 0));
+
+        // ⏳ LIMPIAR MENSAJE AUTOMÁTICO
+        new javax.swing.Timer(2000, e -> {
+            lblMensaje.setText("");
+        }).start();
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar");
+    }
+
+    //  LIMPIAR CAMPOS
+    txtCedula.setText("");
+    txtNombre.setText("");
+    txtApellido.setText("");
+    txtDireccion.setText("");
+    txtEmail.setText("");
+    txtTelefono.setText("");
+
+
+        
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+if (txtCedula.getText().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Ingrese la cédula a eliminar");
+    return;
+}
+
+// 🔒 SOLO ADMIN PUEDE ELIMINAR
+if (nivelUsuario != 0) {
+    JOptionPane.showMessageDialog(this, "Solo el administrador puede eliminar");
+    return;
+}
+
+// ⚠️ CONFIRMACIÓN
+int opcion = JOptionPane.showConfirmDialog(this,
+        "¿Seguro que deseas eliminar este cliente?",
+        "Confirmar",
+        JOptionPane.YES_NO_OPTION);
+
+if (opcion == JOptionPane.YES_OPTION) {
+    eliminarCliente(txtCedula.getText()); // LLAMADA AL MÉTODO
+}        
+        
+        
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+          txtCedula.setText("");
+          txtNombre.setText("");
+          txtApellido.setText("");
+          txtDireccion.setText("");
+          txtEmail.setText("");
+             txtTelefono.setText("");
+                lblMensaje.setText("");
+        
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void eliminarCliente(String cedula) {
+
+    File f = new File("clientes.txt");
+    StringBuilder contenido = new StringBuilder();
+
+    try {
+        BufferedReader br = new BufferedReader(new FileReader(f));
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+
+            String[] datos = linea.split(";");
+
+            if (!datos[0].equalsIgnoreCase(cedula)) {
+                contenido.append(linea).append("\n");
+            }
+        }
+
+        br.close();
+
+        FileWriter fw = new FileWriter(f);
+        fw.write(contenido.toString());
+        fw.close();
+
+        JOptionPane.showMessageDialog(this, "Cliente eliminado correctamente");
+
+        // 🧹 LIMPIAR CAMPOS
+        txtCedula.setText("");
+        txtNombre.setText("");
+        txtApellido.setText("");
+        txtDireccion.setText("");
+        txtEmail.setText("");
+        txtTelefono.setText("");
+        lblMensaje.setText("");
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar");
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -66,9 +527,34 @@ public class DeCliente extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new DeCliente().setVisible(true));
-    }
+  java.awt.EventQueue.invokeLater(() -> {
+    new DeCliente("Invitado", 1, "Invitado", "Invitado").setVisible(true);
+});
+  
+      }                                          
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField jTextField7;
+    private javax.swing.JLabel lblMensaje;
+    private javax.swing.JTextField txtApellido;
+    private javax.swing.JTextField txtCedula;
+    private javax.swing.JTextField txtDireccion;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }

@@ -11,10 +11,10 @@ import javax.swing.JOptionPane;
  * @author Owner
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-    private int nivelUsuario;
-    private String usuario;
-private String nombre;
-private String apellido;
+    private final int nivelUsuario;
+    private final String usuario;
+private final String nombre;
+private final String apellido;
 
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuPrincipal.class.getName());
@@ -23,6 +23,8 @@ private String apellido;
      * Creates new form MenuPrincipal
      * @param usuario
      * @param nivel
+     * @param nombre
+     * @param apellido
      
      */
   public MenuPrincipal(String usuario, int nivel, String nombre, String apellido) {
@@ -139,7 +141,7 @@ this.apellido = apellido;
         jMenuItem4.addActionListener(this::jMenuItem4ActionPerformed);
         jMenu2.add(jMenuItem4);
 
-        jMenuItem5.setText("De Goma");
+        jMenuItem5.setText("De Gama");
         jMenuItem5.setActionCommand("De Gama");
         jMenuItem5.addActionListener(this::jMenuItem5ActionPerformed);
         jMenu2.add(jMenuItem5);
@@ -235,22 +237,23 @@ usuarioForm.setVisible(true);
         this.dispose();    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-DeVehiculo vehiculo = new DeVehiculo();
+DeVehiculo vehiculo = new DeVehiculo(usuario, nivelUsuario, nombre, apellido);
         vehiculo.setVisible(true);
 
         
         this.dispose();    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-DeCliente cli = new DeCliente();
+DeCliente cli = new DeCliente(usuario, nivelUsuario, nombre, apellido);
         cli.setVisible(true);
-
+ 
+    
         
         this.dispose();    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-DeOferta Ofertas = new DeOferta();
-        Ofertas.setVisible(true);
+DeOferta Ofer = new DeOferta(usuario, nivelUsuario,nombre, apellido);
+        Ofer.setVisible(true);
 
         
         this.dispose();    }//GEN-LAST:event_jMenuItem8ActionPerformed

@@ -4,20 +4,59 @@
  */
 package com.mycompany.proyectorencar;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Owner
  */
 public class DeOferta extends javax.swing.JFrame {
     
+    private final String usuario;
+        private final int nivelUsuario;
+        private final String nombre;
+        private final String apellido;
+        
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DeOferta.class.getName());
+        
 
     /**
      * Creates new form DeOferta
+     * @param usuario
+     * @param nivel
+     * @param nombre
+     * @param apellido
      */
-    public DeOferta() {
+    public DeOferta(String usuario, int nivel, String nombre, String apellido) {
         initComponents();
-    }
+        
+          this.usuario = usuario;
+    this.nivelUsuario = nivel;
+    this.nombre = nombre;
+    this.apellido = apellido;
+
+    this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+
+    this.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            volverAlMenu();
+        }
+    });
+}
+
+    private void volverAlMenu() {
+    new MenuPrincipal(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+    this.dispose();
+}
+   
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,22 +67,541 @@ public class DeOferta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        txtOferta = new javax.swing.JTextField();
+        txtMatricula = new javax.swing.JTextField();
+        txtDescripcion = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
+        lblMensaje = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnGuardar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        txtMarca = new javax.swing.JTextField();
+        txtModelo = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mantenimiento de Oferta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 18), new java.awt.Color(0, 0, 255))); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setText("Id Oferta:");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Id Matricula:");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Descripcion de Oferta:");
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel4.setText("Precio:");
+
+        txtOferta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtOfertaKeyReleased(evt);
+            }
+        });
+
+        txtMatricula.addActionListener(this::txtMatriculaActionPerformed);
+        txtMatricula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMatriculaKeyReleased(evt);
+            }
+        });
+
+        btnGuardar.setBackground(new java.awt.Color(0, 51, 255));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
+
+        btnLimpiar.setBackground(new java.awt.Color(0, 204, 0));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+
+        btnEliminar.setBackground(new java.awt.Color(153, 153, 153));
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel5.setText("Descripción Vehículo:");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setText("Marca:");
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setText("Modelo:");
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setText("Precio de Gama:");
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        jTextField1.setEditable(false);
+
+        txtMarca.setEditable(false);
+
+        txtModelo.setEditable(false);
+
+        jTextField4.setEditable(false);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(78, 78, 78)
+                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(39, 39, 39)
+                                .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(230, 427, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(22, 205, Short.MAX_VALUE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(16, 16, 16)
+                                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(71, 71, 71)
+                                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(56, 56, 56)
+                                .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 220, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(43, 43, 43)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(136, 136, 136)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(13, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtMatriculaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatriculaKeyReleased
+
+    String matricula = txtMatricula.getText().trim();
+
+    if (matricula.isEmpty()) return;
+
+    boolean encontrado = false;
+
+    try (BufferedReader br = new BufferedReader(new FileReader("vehiculos.txt"))) {
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(";");
+
+            if (datos[0].trim().toLowerCase().startsWith(matricula.toLowerCase())) {
+
+                txtMarca.setText(datos[1].trim());
+                txtModelo.setText(datos[2].trim());
+                jTextField1.setText(datos[6].trim());
+                jTextField4.setText(datos[7].trim());
+
+                encontrado = true;
+                break;
+            }
+        }
+
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(this, "Vehículo no existe");
+        }
+
+    } catch (IOException e) {
+    }
+
+    }//GEN-LAST:event_txtMatriculaKeyReleased
+
+    private void txtOfertaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtOfertaKeyReleased
+    String id = txtOferta.getText();
+
+    if (id.isEmpty()) return;
+
+    boolean encontrado = false;
+
+    try (BufferedReader br = new BufferedReader(new FileReader("Oferta.txt"))) {
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(";");
+
+           if (datos[0].equals(id)) {
+
+    txtMatricula.setText(datos[1]);
+    txtDescripcion.setText(datos[2]);
+    txtPrecio.setText(datos[3]);
+
+    //  ESTA ES LA LÍNEA QUE TE FALTABA
+    cargarVehiculo(datos[1]);
+
+    lblMensaje.setText("Modificando");
+    encontrado = true;
+    break;
+}
+        }
+
+    } catch (IOException e) {}
+
+    if (!encontrado) {
+        lblMensaje.setText("Creando");
+    }
+        
+        
+        
+        
+    }//GEN-LAST:event_txtOfertaKeyReleased
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+
+
+    // VALIDAR CAMPOS
+    if (txtOferta.getText().isEmpty() ||
+        txtMatricula.getText().isEmpty() ||
+        txtDescripcion.getText().isEmpty() ||
+        txtPrecio.getText().isEmpty()) {
+
+        JOptionPane.showMessageDialog(this, "Campos obligatorios");
+        return;
+    }
+
+    if (jTextField4.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Debe buscar un vehículo válido");
+        return;
+    }
+
+    double precioGama;
+    double precioOferta;
+
+    try {
+        precioGama = Double.parseDouble(jTextField4.getText());
+        precioOferta = Double.parseDouble(txtPrecio.getText());
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Precio inválido");
+        return;
+    }
+
+    double minimo = precioGama * 0.15;
+
+    if (precioOferta < minimo) {
+        JOptionPane.showMessageDialog(this, "Precio menor al 15% del gama");
+        return;
+    }
+
+    File archivo = new File("Oferta.txt");
+    StringBuilder contenido = new StringBuilder();
+    boolean actualizado = false;
+
+    try {
+        if (archivo.exists()) {
+            BufferedReader br = new BufferedReader(new FileReader(archivo));
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(";");
+
+                if (datos[0].equals(txtOferta.getText())) {
+                    contenido.append(txtOferta.getText()).append(";")
+                            .append(txtMatricula.getText()).append(";")
+                            .append(txtDescripcion.getText()).append(";")
+                            .append(txtPrecio.getText()).append("\n");
+
+                    actualizado = true;
+                } else {
+                    contenido.append(linea).append("\n");
+                }
+            }
+            br.close();
+        }
+
+        if (!actualizado) {
+            contenido.append(txtOferta.getText()).append(";")
+                    .append(txtMatricula.getText()).append(";")
+                    .append(txtDescripcion.getText()).append(";")
+                    .append(txtPrecio.getText()).append("\n");
+        }
+
+        FileWriter fw = new FileWriter(archivo);
+        fw.write(contenido.toString());
+        fw.close();
+
+        // MENSAJE
+        if (actualizado) {
+            JOptionPane.showMessageDialog(this, "Oferta modificada correctamente");
+            lblMensaje.setText("Oferta modificada");
+        } else {
+            JOptionPane.showMessageDialog(this, "Oferta creada correctamente");
+            lblMensaje.setText("Oferta creada");
+        }
+
+        lblMensaje.setForeground(new java.awt.Color(0, 153, 0));
+
+        // LIMPIAR
+        limpiarCampos();
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al guardar");
+    }
+
+        
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+
+    txtOferta.setText("");
+    txtMatricula.setText("");
+    txtDescripcion.setText("");
+    txtPrecio.setText("");
+
+    jTextField1.setText("");
+    txtMarca.setText("");
+    txtModelo.setText("");
+    jTextField4.setText("");
+
+    lblMensaje.setText("");
+        
+        
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+
+
+    if (txtOferta.getText().isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese el Id de la oferta a eliminar");
+        return;
+    }
+
+    int opcion = JOptionPane.showConfirmDialog(this, 
+            "¿Seguro que desea eliminar esta oferta?", 
+            "Confirmar", 
+            JOptionPane.YES_NO_OPTION);
+
+    if (opcion != JOptionPane.YES_OPTION) return;
+
+    File archivo = new File("Oferta.txt");
+    File temp = new File("temp.txt");
+
+    boolean eliminado = false;
+
+    try (
+        BufferedReader br = new BufferedReader(new FileReader(archivo));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(temp))
+    ) {
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(";");
+
+            if (!datos[0].equals(txtOferta.getText())) {
+                bw.write(linea);
+                bw.newLine();
+            } else {
+                eliminado = true;
+            }
+        }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error al eliminar");
+        return;
+    }
+
+    // Reemplazar archivo original
+    archivo.delete();
+    temp.renameTo(archivo);
+
+    if (eliminado) {
+        JOptionPane.showMessageDialog(this, "Eliminado correctamente");
+        limpiarCampos();
+    } else {
+        JOptionPane.showMessageDialog(this, "No se encontró la oferta");
+    }
+        
+        
+        
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatriculaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMatriculaActionPerformed
+
+    
+    private void limpiarCampos() {
+    txtOferta.setText("");
+    txtMatricula.setText("");
+    txtDescripcion.setText("");
+    txtPrecio.setText("");
+
+    jTextField1.setText("");
+    txtMarca.setText("");
+    txtModelo.setText("");
+    jTextField4.setText("");
+
+    lblMensaje.setText("");
+}
+    
+    
+    private void cargarVehiculo(String matricula) {
+    try (BufferedReader br = new BufferedReader(new FileReader("vehiculos.txt"))) {
+        String linea;
+
+        while ((linea = br.readLine()) != null) {
+            String[] datos = linea.split(";");
+
+            if (datos[0].trim().equalsIgnoreCase(matricula)) {
+
+                txtMarca.setText(datos[1]);
+                txtModelo.setText(datos[2]);
+                jTextField1.setText(datos[6]);
+                jTextField4.setText(datos[7]);
+
+                break;
+            }
+        }
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error leyendo vehículo");
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -66,9 +624,40 @@ public class DeOferta extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new DeOferta().setVisible(true));
+     
+    java.awt.EventQueue.invokeLater(() -> 
+    new DeOferta("Invitado", 1, "Invitado", "Invitado").setVisible(true)
+);
+    
+    
+    
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField4;
+    private javax.swing.JLabel lblMensaje;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtMarca;
+    private javax.swing.JTextField txtMatricula;
+    private javax.swing.JTextField txtModelo;
+    private javax.swing.JTextField txtOferta;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
+
 }

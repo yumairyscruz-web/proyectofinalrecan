@@ -1,0 +1,2 @@
+A1234;Toyota;Corrola;1;0;2;Gama media;2000.0;true;true;false;Blanco;false;true
+B1234;Honda;Civil;1;1;2;Gama media;2000.0;false;true;false;Negro;true;true
