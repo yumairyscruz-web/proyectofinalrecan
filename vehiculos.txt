@@ -1,2 +1,3 @@
-A1234;Toyota;Corrola;1;0;2;Gama media;2000.0;true;true;false;Blanco;false;true
+A1234;Toyota;Corrola;1;1;1;Gama  o economica;1500.0;false;true;true;AMARILO;true;true
 B1234;Honda;Civil;1;1;2;Gama media;2000.0;false;true;false;Negro;true;true
+A12367;Toyota;Corrola;0;0;2;Gama media;2000.0;false;true;false;Verde;true;true

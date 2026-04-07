@@ -178,8 +178,6 @@ public class DeOferta extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -192,13 +190,15 @@ public class DeOferta extends javax.swing.JFrame {
                                 .addGap(43, 43, 43)
                                 .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(39, 39, 39)
-                                .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap(97, Short.MAX_VALUE))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -413,23 +413,33 @@ public class DeOferta extends javax.swing.JFrame {
         return;
     }
 
-    double precioGama;
-    double precioOferta;
+   double precioGama;
+double precioOferta;
 
-    try {
-        precioGama = Double.parseDouble(jTextField4.getText());
-        precioOferta = Double.parseDouble(txtPrecio.getText());
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Precio inválido");
-        return;
-    }
+try {
+    precioGama = Double.parseDouble(jTextField4.getText());
+    precioOferta = Double.parseDouble(txtPrecio.getText());
+} catch (NumberFormatException e) {
+    JOptionPane.showMessageDialog(this, "Precio inválido");
+    return;
+}
 
-    double minimo = precioGama * 0.15;
+// CALCULAR MÍNIMO CORRECTO (15% DE DESCUENTO)
+double minimo = precioGama - (precioGama * 0.15);
 
-    if (precioOferta < minimo) {
-        JOptionPane.showMessageDialog(this, "Precio menor al 15% del gama");
-        return;
-    }
+// VALIDAR QUE NO SEA MENOR AL 15%
+if (precioOferta < minimo) {
+    JOptionPane.showMessageDialog(this, 
+        "El precio es menor al 15% permitido. Mínimo: " + minimo);
+    return;
+}
+
+//  VALIDAR QUE NO SEA IGUAL O MAYOR AL PRECIO DE GAMA
+if (precioOferta >= precioGama) {
+    JOptionPane.showMessageDialog(this, 
+        "El precio debe ser menor al precio de gama ");//PARA SER OFERTA
+    return;
+}
 
     File archivo = new File("Oferta.txt");
     StringBuilder contenido = new StringBuilder();

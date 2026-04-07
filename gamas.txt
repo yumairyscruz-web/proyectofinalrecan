@@ -1,4 +1,4 @@
-1,Gama basica,1000.0
+1,Gama basica  o economica,1500.0
 2,Gama media,2000.0
 3,Gama alta,3000.0
 4,Gama,4000.0

@@ -1,3 +1,4 @@
-001;A1234;Oferta Navideña;300
-002;B1234;Oferta de Negro;300
-003;B1234;Oferta de Semana Santa;300
+001;A1234;Oferta Navideña;1300
+002;B1234;Oferta de Negro;1750
+003;B1234;Oferta de Semana Santa;1700
+1;A1234;Vehiculo el oferta 10 de abril;1275
