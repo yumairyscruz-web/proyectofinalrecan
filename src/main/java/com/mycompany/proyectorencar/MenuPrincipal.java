@@ -123,10 +123,11 @@ this.apellido = apellido;
                 .addComponent(lblBienvenida, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
-        jMenuBar1.setBackground(new java.awt.Color(0, 0, 255));
+        jMenuBar1.setBackground(new java.awt.Color(153, 255, 153));
+        jMenuBar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         jMenu1.setText("Navegado");
 
@@ -142,7 +143,6 @@ this.apellido = apellido;
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setText("De Gama");
-        jMenuItem5.setActionCommand("De Gama");
         jMenuItem5.addActionListener(this::jMenuItem5ActionPerformed);
         jMenu2.add(jMenuItem5);
 
@@ -189,6 +189,7 @@ this.apellido = apellido;
 
         jMenuBar1.add(jMenu3);
 
+        jMenu4.setBackground(new java.awt.Color(153, 255, 153));
         jMenu4.setText("Opciones");
 
         jMenuItem14.setText("Cambiar de Usuario");
