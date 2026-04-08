@@ -603,7 +603,7 @@ g4.add(jRadioButton8);
         txtDescripcion.getText().isEmpty() ||
         txtColor.getText().isEmpty()) {
 
-        JOptionPane.showMessageDialog(this, "Llenar campos obligatorios");
+        JOptionPane.showMessageDialog(this, "Llenar los campos obligatorios");
         return;
     }
     
