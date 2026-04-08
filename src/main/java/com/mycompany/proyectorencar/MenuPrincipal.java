@@ -98,12 +98,13 @@ this.apellido = apellido;
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        lblBienvenida.setFont(new java.awt.Font("Bookman Old Style", 1, 18)); // NOI18N
+        lblBienvenida.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblBienvenida.setForeground(new java.awt.Color(0, 0, 255));
         lblBienvenida.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblBienvenida.setBorder(javax.swing.BorderFactory.createCompoundBorder());
 
-        lblMensaje.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lblMensaje.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblMensaje.setForeground(new java.awt.Color(204, 204, 255));
         lblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -126,16 +127,22 @@ this.apellido = apellido;
                 .addContainerGap(68, Short.MAX_VALUE))
         );
 
-        jMenuBar1.setBackground(new java.awt.Color(153, 255, 153));
+        jMenuBar1.setBackground(new java.awt.Color(0, 153, 0));
         jMenuBar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jMenuBar1.setForeground(new java.awt.Color(255, 255, 255));
 
-        jMenu1.setText("Navegado");
+        jMenu1.setBackground(new java.awt.Color(0, 153, 0));
+        jMenu1.setForeground(new java.awt.Color(255, 255, 255));
+        jMenu1.setText("Navegador");
+        jMenu1.setRequestFocusEnabled(false);
 
         jMenuItem13.setText("Volver a Inicio");
         jMenu1.add(jMenuItem13);
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setBackground(new java.awt.Color(0, 153, 0));
+        jMenu2.setForeground(new java.awt.Color(255, 255, 255));
         jMenu2.setText("Mantenimiento");
 
         jMenuItem4.setText("De Usuario");
@@ -160,6 +167,8 @@ this.apellido = apellido;
 
         jMenuBar1.add(jMenu2);
 
+        jMenu7.setBackground(new java.awt.Color(0, 153, 0));
+        jMenu7.setForeground(new java.awt.Color(255, 255, 255));
         jMenu7.setText("Movimiento");
 
         jMenuItem9.setText("De Reservas _Clientes");
@@ -170,6 +179,8 @@ this.apellido = apellido;
 
         jMenuBar1.add(jMenu7);
 
+        jMenu3.setBackground(new java.awt.Color(0, 153, 0));
+        jMenu3.setForeground(new java.awt.Color(255, 255, 255));
         jMenu3.setText("Consultas");
 
         jMenuItem2.setText("De Cliente");
@@ -189,7 +200,8 @@ this.apellido = apellido;
 
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setBackground(new java.awt.Color(153, 255, 153));
+        jMenu4.setBackground(new java.awt.Color(0, 153, 0));
+        jMenu4.setForeground(new java.awt.Color(255, 255, 255));
         jMenu4.setText("Opciones");
 
         jMenuItem14.setText("Cambiar de Usuario");
