@@ -11,11 +11,11 @@ import javax.swing.JOptionPane;
  * @author Owner
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-    private final int nivelUsuario;
     private final String usuario;
-private final String nombre;
-private final String apellido;
-
+    private final int nivelUsuario;
+    private final String nombre;
+    private final String apellido;
+ 
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MenuPrincipal.class.getName());
 
@@ -29,33 +29,35 @@ private final String apellido;
      */
   public MenuPrincipal(String usuario, int nivel, String nombre, String apellido) {
     initComponents();
-        this.nivelUsuario = nivel; // IMPORTANTE
-this.usuario = usuario;
-this.nombre = nombre;
-this.apellido = apellido;
     
-//codigo para inabilitad a usuario a entra vehiculo,goma,oferta
-    if (nivel == 1) {
-        jMenuItem5.setEnabled(false);
-        jMenuItem6.setEnabled(false);
-        jMenuItem8.setEnabled(false);
-        jMenuItem4.setVisible(false);
-    } else {
-        jMenuItem4.setVisible(true);
+    this.usuario = usuario;
+    this.nivelUsuario = nivel;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    
+    // Configuración de Seguridad [cite: 196, 197]
+    if (nivel == 1) { // Usuario Normal
+        jMenuItem5.setEnabled(false); // De Goma (Gama)
+        jMenuItem6.setEnabled(false); // De Vehículos
+        jMenuItem8.setEnabled(false); // De Ofertas
+        jMenuItem4.setVisible(false); // Oculta Mantenimiento de Usuarios
+        jMenuItem9.setEnabled(false); // De Reserva de Clientes
+        jMenuItem1.setEnabled(false); // De Recepción de Vehículo
+    } else { // Administrador (Nivel 0) [cite: 195]
+        jMenuItem4.setVisible(true); // El admin sí puede ver "De Usuario"
     }
 
     setLocationRelativeTo(null);
-
-    // bienvenida en el menu
-    lblBienvenida.setText("Bienvenido/a, " + nombre + " " + apellido);
-
+    lblBienvenida.setText("Bienvenido/a, " + usuario);
     lblMensaje.setText("¡Seleccione una opción del menú para comenzar!");
 
+    // Tu diseño personalizado
     jMenuBar1.setOpaque(true);
     jMenuBar1.setBackground(new java.awt.Color(0, 102, 204));
     jMenuBar1.setUI(new javax.swing.plaf.basic.BasicMenuBarUI());
     jMenuBar1.setPreferredSize(new java.awt.Dimension(0, 50));
-}
+    jMenu1.setText("Navegador");
+    }
 
     
 
@@ -170,11 +172,14 @@ this.apellido = apellido;
         jMenu7.setBackground(new java.awt.Color(0, 153, 0));
         jMenu7.setForeground(new java.awt.Color(255, 255, 255));
         jMenu7.setText("Movimiento");
+        jMenu7.addActionListener(this::jMenu7ActionPerformed);
 
-        jMenuItem9.setText("De Reservas _Clientes");
+        jMenuItem9.setText("De Reservas Clientes");
+        jMenuItem9.addActionListener(this::jMenuItem9ActionPerformed);
         jMenu7.add(jMenuItem9);
 
         jMenuItem1.setText("De Recepción Vehículos");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
         jMenu7.add(jMenuItem1);
 
         jMenuBar1.add(jMenu7);
@@ -231,48 +236,48 @@ this.apellido = apellido;
     }// </editor-fold>//GEN-END:initComponents
 
     private void MenuSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuSalirActionPerformed
-System.exit(0);    }//GEN-LAST:event_MenuSalirActionPerformed
+        System.exit(0);    }//GEN-LAST:event_MenuSalirActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        Deusuario usuarioForm = new Deusuario(usuario, nivelUsuario, nombre, apellido);
-usuarioForm.setVisible(true);
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        new De_Reservas_Clientes(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void jMenu7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu7ActionPerformed
+    }//GEN-LAST:event_jMenu7ActionPerformed
 
-        
-        this.dispose();    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        new DeRecepcionVehiculo(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-   DeGoma goma = new DeGoma(usuario, nivelUsuario, nombre, apellido);
-    goma.setVisible(true);
-   
+private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    new Deusuario(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+    this.dispose();
+}
 
-        
-        this.dispose();    }//GEN-LAST:event_jMenuItem5ActionPerformed
+private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {
+    new DeGama(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+    this.dispose();
+}
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-DeVehiculo vehiculo = new DeVehiculo(usuario, nivelUsuario, nombre, apellido);
-        vehiculo.setVisible(true);
+private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {
+    new DeVehiculo(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+    this.dispose();
+}
 
-        
-        this.dispose();    }//GEN-LAST:event_jMenuItem6ActionPerformed
+private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {
+    new DeCliente(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+    this.dispose();
+}
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-DeCliente cli = new DeCliente(usuario, nivelUsuario, nombre, apellido);
-        cli.setVisible(true);
- 
-    
-        
-        this.dispose();    }//GEN-LAST:event_jMenuItem7ActionPerformed
+private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {
+    new DeOferta(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+    this.dispose();
+}
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-DeOferta Ofer = new DeOferta(usuario, nivelUsuario,nombre, apellido);
-        Ofer.setVisible(true);
-
-        
-        this.dispose();    }//GEN-LAST:event_jMenuItem8ActionPerformed
-
-    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
- int opcion = JOptionPane.showConfirmDialog(
+private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {
+     int opcion = JOptionPane.showConfirmDialog(
             this, 
             "¿Deseas cambiar de usuario?", 
             "Cerrar sesión", 
@@ -285,12 +290,9 @@ DeOferta Ofer = new DeOferta(usuario, nivelUsuario,nombre, apellido);
         login.setVisible(true);
 
         // Cerrar ventana actual
-        this.dispose();
-    }        
-        
-        
-    }//GEN-LAST:event_jMenuItem14ActionPerformed
-
+        this.dispose(); 
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -313,8 +315,8 @@ DeOferta Ofer = new DeOferta(usuario, nivelUsuario,nombre, apellido);
         //</editor-fold>
 
         /* Create and display the form */
-       
-java.awt.EventQueue.invokeLater(() -> new MenuPrincipal("Invitado", 1, "Invitado", "Invitado").setVisible(true));    }
+java.awt.EventQueue.invokeLater(() -> new MenuPrincipal("Invitado", 1, "Invitado", "Invitado").setVisible(true));
+        }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem MenuSalir;
@@ -342,4 +344,4 @@ java.awt.EventQueue.invokeLater(() -> new MenuPrincipal("Invitado", 1, "Invitado
     private javax.swing.JLabel lblBienvenida;
     private javax.swing.JLabel lblMensaje;
     // End of variables declaration//GEN-END:variables
-}
+} 

@@ -15,14 +15,14 @@ import javax.swing.JOptionPane;
  *
  * @author Owner
  */
-public class DeGoma extends javax.swing.JFrame {
+public class DeGama extends javax.swing.JFrame {
     
     private String usuario;//ir para atras a menu a querer salir 
 private int nivelUsuario;
 private String nombre;
 private String apellido;
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DeGoma.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DeGama.class.getName());
 
     /**
      * Creates new form DeGoma
@@ -31,7 +31,7 @@ private String apellido;
      * @param nombre
      * @param apellido
      */
-  public DeGoma(String usuario, int nivel, String nombre, String apellido) {
+  public DeGama(String usuario, int nivel, String nombre, String apellido) {
     initComponents();
 //ir para atras a menu a querer salir
     this.usuario = usuario;
@@ -436,7 +436,7 @@ private void eliminarGoma(String codigo) {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> 
-    new DeGoma("Invitado", 1, "Invitado", "Invitado").setVisible(true)
+    new DeGama("Invitado", 1, "Invitado", "Invitado").setVisible(true)
 );
     }
 

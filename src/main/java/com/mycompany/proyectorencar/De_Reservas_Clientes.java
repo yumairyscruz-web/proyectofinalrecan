@@ -4,7 +4,6 @@
  */
 package com.mycompany.proyectorencar;
 
-import static com.mycompany.proyectorencar.ArchivoUtil.buscarVehiculo;
 import java.awt.HeadlessException;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -14,19 +13,46 @@ import javax.swing.JOptionPane;
  * @author Owner
  */
 public class De_Reservas_Clientes extends javax.swing.JFrame {
-    private boolean modoCreando = false;
+    private final String usuario;
+    private final int nivelUsuario;
+    private final String nombre;
+    private final String apellido;
+    
+    private final boolean modoCreando = false;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(De_Reservas_Clientes.class.getName());
 
     /**
      * Creates new form De_Reservas_Clientes
+     * @param usuario
+     * @param nivel
+     * @param apellido
+     * @param nombre
      */
-    public De_Reservas_Clientes() {
-        initComponents();
+    public De_Reservas_Clientes(String usuario, int nivel, String nombre, String apellido) {
+        initComponents(); 
+        
+        this.usuario = usuario;
+        this.nivelUsuario = nivel;
+        this.nombre = nombre;
+        this.apellido = apellido;
         
         jPanel1.setPreferredSize(new java.awt.Dimension(781, 1231));
         java.time.LocalDate hoy = java.time.LocalDate.now();
         lblFechaReserva.setText(hoy.toString());
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                volverAlMenu();
+            }
+        });
     }
+    
+    private void volverAlMenu() {
+    new MenuPrincipal(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+    this.dispose();
+}    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -79,8 +105,8 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         txtObservacion = new javax.swing.JTextField();
-        btnGuardar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -444,17 +470,17 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                 .addContainerGap(49, Short.MAX_VALUE))
         );
 
-        btnGuardar.setBackground(new java.awt.Color(0, 204, 0));
-        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
-        btnGuardar.setText("Limpiar");
-        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
-
-        btnLimpiar.setBackground(new java.awt.Color(0, 0, 255));
+        btnLimpiar.setBackground(new java.awt.Color(0, 204, 0));
         btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
-        btnLimpiar.setText("Guardar");
+        btnLimpiar.setText("Limpiar");
         btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
+
+        btnGuardar.setBackground(new java.awt.Color(0, 0, 255));
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("Guardar");
+        btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -462,9 +488,9 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
                 .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -482,8 +508,8 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -512,7 +538,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         String matricula = txtIdMatricula.getText().trim();
         if (matricula.isEmpty()) return;
 
-        String[] vehiculo = buscarVehiculo(matricula);
+        String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
 
         if (vehiculo != null) {
         if (vehiculo[13].equals("true")) {
@@ -575,9 +601,9 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_lblDiasReservaActionPerformed
 
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         limpiarTodo();
-    }//GEN-LAST:event_btnGuardarActionPerformed
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void txtObservacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtObservacionActionPerformed
         // TODO add your handling code here:
@@ -610,7 +636,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtIdOfertaActionPerformed
 
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (txtIdMatricula.getText().trim().isEmpty() ||
             txtIdCedula.getText().trim().isEmpty() ||
             txtFechaSalida.getText().trim().isEmpty() ||
@@ -637,7 +663,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         cambiarStatusVehiculo(matricula, true);
         JOptionPane.showMessageDialog(this, "Reserva guardada correctamente.");
         limpiarTodo();
-    }//GEN-LAST:event_btnLimpiarActionPerformed
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -661,7 +687,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new De_Reservas_Clientes().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new De_Reservas_Clientes("Invitado", 1, "Invitado", "Invitado").setVisible(true));
     }
     
     private void cambiarStatusVehiculo(String matricula, boolean status) {
@@ -694,7 +720,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     java.time.LocalDate hoy = java.time.LocalDate.now();
     lblFechaReserva.setText(hoy.toString());
 }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
