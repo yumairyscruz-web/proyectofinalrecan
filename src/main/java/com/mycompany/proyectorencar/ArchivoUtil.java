@@ -2,12 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.proyectorencar;
 
 /**
  *
  * @author User
  */
+
+package com.mycompany.proyectorencar;
+
 import java.io.*;
 import java.util.*;
 
@@ -79,4 +81,26 @@ public class ArchivoUtil {
         }
         return null;
     }
+    
+    
+public static String[] buscarRecepcion(String idRecepcion) {
+    List<String> lineas = leerArchivo("recepciones.txt");
+    for (String linea : lineas) {
+        String[] partes = linea.split(";");
+        if (partes[0].equalsIgnoreCase(idRecepcion)) return partes;
+    }
+    return null;
 }
+
+public static String[] buscarReservaPorMatricula(String matricula) {
+    List<String> lineas = leerArchivo("reservas.txt");
+    for (String linea : lineas) {
+        String[] partes = linea.split(";");
+        if (partes[0].equalsIgnoreCase(matricula)) return partes;
+    }
+    return null;
+}
+
+}
+
+
