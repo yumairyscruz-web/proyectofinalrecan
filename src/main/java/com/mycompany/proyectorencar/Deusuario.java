@@ -22,7 +22,7 @@ import java.io.File;
  */
 public class Deusuario extends javax.swing.JFrame {
 
-    private boolean existe = false;
+private boolean existe = false;
 private int nivelUsuario;
 private String usuario;
 private String nombre;
@@ -57,7 +57,11 @@ private String apellido;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Deusuario.class.getName());
 
     /**
-     * Creates new form Deusuario
+     * Creates new form DeUsuario
+     * @param usuario
+     * @param nivel
+     * @param nombre
+     * @param apellido
      */
     public Deusuario(String usuario, int nivel, String nombre, String apellido) {
     initComponents();

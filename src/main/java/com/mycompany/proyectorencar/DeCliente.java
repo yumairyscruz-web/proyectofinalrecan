@@ -18,9 +18,9 @@ import javax.swing.JOptionPane;
 public class DeCliente extends javax.swing.JFrame {
     
     private String usuario;//ir para atras a menu a querer salir 
-private int nivelUsuario;
-private String nombre;
-private String apellido;
+    private int nivelUsuario;
+    private String nombre;
+    private String apellido;
     
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DeCliente.class.getName());
