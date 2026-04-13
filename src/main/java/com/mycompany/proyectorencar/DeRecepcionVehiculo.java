@@ -284,6 +284,7 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
         btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpiar.setText("Limpiar");
         btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimpiar.addActionListener(this::btnLimpiarActionPerformed);
 
         btnGuardar.setBackground(new java.awt.Color(0, 0, 255));
         btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
@@ -446,6 +447,11 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Utilizar: YYYY-MM-DD");
 }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiarTodo();
+
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
      * @param args the command line arguments
