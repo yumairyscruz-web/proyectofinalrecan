@@ -101,6 +101,19 @@ public static String[] buscarReservaPorMatricula(String matricula) {
     return null;
 }
 
+public static String[] buscarOfertaPorMatricula(String matricula) {
+    List<String> lineas = leerArchivo("ofertas.txt");
+
+    for (String linea : lineas) {
+        String[] datos = linea.split(";");
+
+        if (datos[1].equalsIgnoreCase(matricula)) {
+            return datos;
+        }
+    }
+    return null;
+}
+
 }
 
 

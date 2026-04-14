@@ -4,7 +4,6 @@
  */
 package com.mycompany.proyectorencar;
 
-import java.awt.HeadlessException;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -77,6 +76,10 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         lblMarcaModelo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         lblDescVeh = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        txtreserva = new javax.swing.JTextField();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jLabel21 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -107,6 +110,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         txtObservacion = new javax.swing.JTextField();
         btnLimpiar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -154,6 +158,17 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         lblDescVeh.setToolTipText("");
         lblDescVeh.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 1, true));
 
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel20.setText("Id de Reserva");
+
+        jRadioButton1.setBackground(new java.awt.Color(0, 153, 51));
+        jRadioButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jRadioButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jRadioButton1.setText("Disponible");
+
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel21.setText("Status de Vehiculo");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -161,37 +176,55 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDescVeh, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIdMatricula, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(55, 55, 55)
+                        .addComponent(jLabel21)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblMarcaModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel20)
+                                .addComponent(jLabel3))
+                            .addComponent(txtreserva))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(lblMarcaModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(141, Short.MAX_VALUE))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
+                            .addComponent(lblDescVeh, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIdMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(133, 133, 133))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(10, 10, 10)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
+                    .addComponent(jLabel20))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtIdMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtreserva, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMarcaModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtIdMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
+                    .addComponent(lblDescVeh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMarcaModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDescVeh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46))
+                .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -422,9 +455,9 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel11)
-                .addGap(50, 50, 50)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGap(27, 27, 27)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -482,34 +515,42 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         btnGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnGuardar.addActionListener(this::btnGuardarActionPerformed);
 
+        btnEliminar.setBackground(new java.awt.Color(102, 102, 102));
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("Eliminar ");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(526, Short.MAX_VALUE)
-                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 27, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(31, 31, 31))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -519,11 +560,13 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1224, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1))
         );
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -533,23 +576,42 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtIdMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdMatriculaActionPerformed
-        String matricula = txtIdMatricula.getText().trim();
-        if (matricula.isEmpty()) return;
+    String matricula = txtIdMatricula.getText().trim();
+    if (matricula.isEmpty()) return;
 
-        String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
+    String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
 
-        if (vehiculo != null) {
-        if (vehiculo[13].equals("true")) {
-            JOptionPane.showMessageDialog(this, "Este vehículo ya está reservado.", "Error", JOptionPane.ERROR_MESSAGE);
+    if (vehiculo != null) {
+
+        boolean status = Boolean.parseBoolean(vehiculo[13]);
+
+        if (status) {
+            JOptionPane.showMessageDialog(this, "Vehículo NO disponible.");
             txtIdMatricula.setText("");
             return;
         }
+
         lblMarcaModelo.setText(vehiculo[1] + " " + vehiculo[2]);
         lblDescVeh.setText(vehiculo[6]);
+        jRadioButton1.setSelected(true); // disponible
+
+        String[] oferta = ArchivoUtil.buscarOfertaPorMatricula(matricula);
+
+        if (oferta != null) {
+            txtIdOferta.setText(oferta[0]);
+            lblPrecioOferta.setText("RD$ " + oferta[3]);
         } else {
-            JOptionPane.showMessageDialog(this, "Matrícula no existe.", "Error", JOptionPane.ERROR_MESSAGE);
-            txtIdMatricula.setText("");
-}
+            txtIdOferta.setText("");
+            lblPrecioOferta.setText("");
+        }
+
+    } else {
+        JOptionPane.showMessageDialog(this, "Matrícula no existe.");
+        txtIdMatricula.setText("");
+        jRadioButton1.setSelected(false);
+    }
+
+    
     }//GEN-LAST:event_txtIdMatriculaActionPerformed
 
     private void lblMarcaModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblMarcaModeloActionPerformed
@@ -561,38 +623,41 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_lblPrecioOfertaActionPerformed
 
     private void txtFechaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaEntradaActionPerformed
-        try {
-            java.time.LocalDate salida = java.time.LocalDate.parse(txtFechaSalida.getText().trim());
-            java.time.LocalDate entrada = java.time.LocalDate.parse(txtFechaEntrada.getText().trim());
-            java.time.LocalDate hoy = java.time.LocalDate.now();
+    try {
+        java.time.LocalDate salida = java.time.LocalDate.parse(txtFechaSalida.getText().trim());
+        java.time.LocalDate entrada = java.time.LocalDate.parse(txtFechaEntrada.getText().trim());
+        java.time.LocalDate reserva = java.time.LocalDate.parse(lblFechaReserva.getText());
 
-            if (salida.isBefore(hoy)) {
-                JOptionPane.showMessageDialog(this, "La fecha de salida no puede ser antes que hoy.");
-                return;
-            }
-            if (entrada.isBefore(salida)) {
-                JOptionPane.showMessageDialog(this, "La fecha de entrada no puede ser antes de la fecha de salida.");
-                return;
-            }
-
-            long dias = java.time.temporal.ChronoUnit.DAYS.between(salida, entrada);
-            lblDiasReserva.setText(dias + " días");
-
-            String idOferta = txtIdOferta.getText().trim();
-            double precio;
-            if (!idOferta.isEmpty() && ArchivoUtil.buscarOferta(idOferta) != null) {
-                precio = Double.parseDouble(ArchivoUtil.buscarOferta(idOferta)[3]);
-            } else {
-                String[] vehiculo = ArchivoUtil.buscarVehiculo(txtIdMatricula.getText().trim());
-                precio = Double.parseDouble(vehiculo[7]);
-            }
-
-            double total = precio * dias;
-            lblTotalReserva.setText("RD$ " + total);
-
-        } catch (HeadlessException | NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Use: YYYY-MM-DD");
+        if (salida.isBefore(reserva)) {
+            JOptionPane.showMessageDialog(this, "Fecha salida menor que fecha reserva");
+            return;
         }
+
+        if (entrada.isBefore(salida)) {
+            JOptionPane.showMessageDialog(this, "La fecha de entrada no puede ser antes de la salida.");
+            return;
+        }
+
+        long dias = java.time.temporal.ChronoUnit.DAYS.between(salida, entrada);
+        lblDiasReserva.setText(dias + " días");
+
+        String idOferta = txtIdOferta.getText().trim();
+        double precio;
+
+        if (!idOferta.isEmpty() && ArchivoUtil.buscarOferta(idOferta) != null) {
+            precio = Double.parseDouble(ArchivoUtil.buscarOferta(idOferta)[3]);
+        } else {
+            String[] vehiculo = ArchivoUtil.buscarVehiculo(txtIdMatricula.getText().trim());
+            precio = Double.parseDouble(vehiculo[7]);
+        }
+
+        double total = precio * dias;
+        lblTotalReserva.setText("RD$ " + total);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Formato de fecha inválido (YYYY-MM-DD)");
+    }
+
     }//GEN-LAST:event_txtFechaEntradaActionPerformed
 
     private void lblDiasReservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblDiasReservaActionPerformed
@@ -622,16 +687,20 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdCedulaActionPerformed
 
     private void txtIdOfertaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdOfertaActionPerformed
-        String idOferta = txtIdOferta.getText().trim();
-        if (idOferta.isEmpty()) return;
+    String idOferta = txtIdOferta.getText().trim();
 
+    if (!idOferta.isEmpty()) {
         String[] oferta = ArchivoUtil.buscarOferta(idOferta);
+
         if (oferta != null) {
             lblPrecioOferta.setText("RD$ " + oferta[3]);
         } else {
-            JOptionPane.showMessageDialog(this, "Oferta no existe.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Oferta no existe.");
             txtIdOferta.setText("");
+            lblPrecioOferta.setText("");
         }
+    }
+
     }//GEN-LAST:event_txtIdOfertaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -642,8 +711,32 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Complete todos los campos obligatorios.");
             return;
         }
+        
+        
+     
+String matricula = txtIdMatricula.getText().trim();
+String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
 
-        String matricula  = txtIdMatricula.getText().trim();
+if (vehiculo == null) {
+    JOptionPane.showMessageDialog(this, "Vehículo no existe.");
+    return;
+}
+
+if (vehiculo[13].equals("true")) {
+    JOptionPane.showMessageDialog(this, "Vehículo no disponible.");
+    return;
+}
+
+        
+        if (txtreserva.getText().trim().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Debe ingresar ID de Reserva.");
+    return;
+}if (ArchivoUtil.buscarCliente(txtIdCedula.getText().trim()) == null) {
+    JOptionPane.showMessageDialog(this, "Cliente no válido.");
+    return;
+
+}
+
         String cedula     = txtIdCedula.getText().trim();
         String idOferta   = txtIdOferta.getText().trim();
         String fechaRes   = lblFechaReserva.getText();
@@ -653,9 +746,11 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         String total      = lblTotalReserva.getText().replace("RD$ ", "");
         String obs        = txtObservacion.getText().trim();
 
-        String nuevaLinea = matricula + ";" + cedula + ";" + idOferta + ";" +
-                fechaRes + ";" + fechaSal + ";" + fechaEnt + ";" +
-                obs + ";" + dias + ";" + total;
+        String idReserva = txtreserva.getText().trim();
+
+String nuevaLinea = idReserva + ";" + matricula + ";" + cedula + ";" + idOferta + ";" +
+        fechaRes + ";" + fechaSal + ";" + fechaEnt + ";" +
+        obs + ";" + dias + ";" + total + ";" + "true";
 
         ArchivoUtil.agregarLinea("reservas.txt", nuevaLinea);
         cambiarStatusVehiculo(matricula, true);
@@ -663,6 +758,62 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         limpiarTodo();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+    String idReserva = txtreserva.getText().trim();
+
+    if (idReserva.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese el ID de reserva a eliminar.");
+        return;
+    }
+
+    int opcion = JOptionPane.showConfirmDialog(this,
+            "¿Seguro que deseas eliminar esta reserva?",
+            "Confirmar",
+            JOptionPane.YES_NO_OPTION);
+
+    if (opcion != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    borrarReserva(idReserva);  
+   
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    
+    private void borrarReserva(String idReserva) {
+
+    if (nivelUsuario != 2) { // 2 = admin (ajústalo si usas otro nivel)
+        JOptionPane.showMessageDialog(this, "Solo el administrador puede borrar.");
+        return;
+    }
+
+    List<String> lineas = ArchivoUtil.leerArchivo("reservas.txt");
+    boolean eliminado = false;
+    String matricula = "";
+
+    for (int i = 0; i < lineas.size(); i++) {
+        String[] datos = lineas.get(i).split(";");
+
+        if (datos[0].equals(idReserva)) {
+            matricula = datos[1]; // guardar matrícula
+            lineas.remove(i);
+            eliminado = true;
+            break;
+        }
+    }
+
+    if (eliminado) {
+        ArchivoUtil.escribirArchivo("reservas.txt", lineas);
+
+        cambiarStatusVehiculo(matricula, false);
+
+        JOptionPane.showMessageDialog(this, "Reserva eliminada.");
+    } else {
+        JOptionPane.showMessageDialog(this, "Reserva no encontrada.");
+    }
+}
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -717,9 +868,13 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     lblTotalReserva.setText("");
     java.time.LocalDate hoy = java.time.LocalDate.now();
     lblFechaReserva.setText(hoy.toString());
+    txtreserva.setText("");
+    jRadioButton1.setText("");
+    
 }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
@@ -734,6 +889,8 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -749,6 +906,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField lblDescVeh;
     private javax.swing.JTextField lblDiasReserva;
@@ -764,5 +922,6 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     private javax.swing.JTextField txtIdMatricula;
     private javax.swing.JTextField txtIdOferta;
     private javax.swing.JTextField txtObservacion;
+    private javax.swing.JTextField txtreserva;
     // End of variables declaration//GEN-END:variables
 }
