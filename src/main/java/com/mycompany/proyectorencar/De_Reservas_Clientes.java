@@ -17,6 +17,8 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     private final String nombre;
     private final String apellido;
     
+    
+    
     private final boolean modoCreando = false;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(De_Reservas_Clientes.class.getName());
 
@@ -35,6 +37,8 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         this.nombre = nombre;
         this.apellido = apellido;
         
+        
+        
         jPanel1.setPreferredSize(new java.awt.Dimension(781, 1231));
         java.time.LocalDate hoy = java.time.LocalDate.now();
         lblFechaReserva.setText(hoy.toString());
@@ -48,10 +52,51 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         });
     }
     
+    
+    
+  private void cargarVehiculoYOferta() {
+        String matricula = txtIdMatricula.getText().trim();
+        if (matricula.isEmpty()) return;
+
+        String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
+
+        if (vehiculo != null) {
+
+            boolean status = vehiculo[13].trim().equalsIgnoreCase("true");
+
+            lblMarcaModelo.setText(vehiculo[1] + " " + vehiculo[2]);
+            lblDescVeh.setText(vehiculo[6]);
+
+            if (status) {
+                jRadioButton1.setText("Disponible");
+                jRadioButton1.setSelected(true);
+            } else {
+                jRadioButton1.setText("No Disponible");
+                jRadioButton1.setSelected(false);
+            }
+
+            String[] oferta = ArchivoUtil.buscarOfertaPorMatricula(matricula);
+
+            if (oferta != null) {
+                txtIdOferta.setText(oferta[0]);
+                lblPrecioOferta.setText("RD$ " + oferta[3]);
+            } else {
+                txtIdOferta.setText("");
+                lblPrecioOferta.setText("");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Matrícula no existe.");
+            txtIdMatricula.setText("");
+        }
+    }
+
     private void volverAlMenu() {
-    new MenuPrincipal(usuario, nivelUsuario, nombre, apellido).setVisible(true);
-    this.dispose();
-}    
+        new MenuPrincipal(usuario, nivelUsuario, nombre, apellido).setVisible(true);
+        this.dispose();
+    }
+ 
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -161,10 +206,15 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel20.setText("Id de Reserva");
 
+        txtreserva.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 1, true));
+        txtreserva.addActionListener(this::txtreservaActionPerformed);
+
         jRadioButton1.setBackground(new java.awt.Color(0, 153, 51));
         jRadioButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jRadioButton1.setForeground(new java.awt.Color(255, 255, 255));
         jRadioButton1.setText("Disponible");
+        jRadioButton1.setOpaque(true);
+        jRadioButton1.addActionListener(this::jRadioButton1ActionPerformed);
 
         jLabel21.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel21.setText("Status de Vehiculo");
@@ -176,9 +226,9 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel21)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblMarcaModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
@@ -194,10 +244,10 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                             .addComponent(lblDescVeh, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtIdMatricula, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(133, 133, 133))))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel21)
+                .addGap(599, 599, 599))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,11 +270,11 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDescVeh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblMarcaModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -456,10 +506,10 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel11)
                 .addGap(27, 27, 27)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -489,7 +539,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                     .addComponent(txtObservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19)
                     .addComponent(jLabel18))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -543,9 +593,9 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -579,22 +629,33 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     String matricula = txtIdMatricula.getText().trim();
     if (matricula.isEmpty()) return;
 
+    cargarVehiculoYOferta(); 
     String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
 
     if (vehiculo != null) {
 
-        boolean status = Boolean.parseBoolean(vehiculo[13]);
+        // true = Disponible, false = No disponible
+        boolean status = vehiculo[13].trim().equalsIgnoreCase("true");
 
-        if (status) {
-            JOptionPane.showMessageDialog(this, "Vehículo NO disponible.");
-            txtIdMatricula.setText("");
-            return;
-        }
-
+        // CARGAR DATOS
         lblMarcaModelo.setText(vehiculo[1] + " " + vehiculo[2]);
         lblDescVeh.setText(vehiculo[6]);
-        jRadioButton1.setSelected(true); // disponible
 
+        // MOSTRAR STATUS CORRECTO
+        if (status) {
+            jRadioButton1.setText("Disponible");
+            jRadioButton1.setSelected(true);
+        } else {
+            jRadioButton1.setText("No Disponible");
+            jRadioButton1.setSelected(false);
+        }
+
+        // VALIDAR SI NO ESTÁ DISPONIBLE
+        if (!status) {
+            JOptionPane.showMessageDialog(this, "Este vehículo no está disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        // BUSCAR OFERTA
         String[] oferta = ArchivoUtil.buscarOfertaPorMatricula(matricula);
 
         if (oferta != null) {
@@ -609,7 +670,9 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Matrícula no existe.");
         txtIdMatricula.setText("");
         jRadioButton1.setSelected(false);
+        jRadioButton1.setText("Disponible");
     }
+
 
     
     }//GEN-LAST:event_txtIdMatriculaActionPerformed
@@ -714,48 +777,48 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         
         
      
-String matricula = txtIdMatricula.getText().trim();
-String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
+        String matricula = txtIdMatricula.getText().trim();
+        String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
 
-if (vehiculo == null) {
-    JOptionPane.showMessageDialog(this, "Vehículo no existe.");
-    return;
-}
+        if (vehiculo == null) {
+            JOptionPane.showMessageDialog(this, "Vehículo no existe.");
+            return;
+        }
 
-if (vehiculo[13].equals("true")) {
-    JOptionPane.showMessageDialog(this, "Vehículo no disponible.");
-    return;
-}
+        if (vehiculo[13].equals("false")) {
+            JOptionPane.showMessageDialog(this, "Vehículo no disponible.");
+            return;
+        }
 
         
         if (txtreserva.getText().trim().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Debe ingresar ID de Reserva.");
-    return;
-}if (ArchivoUtil.buscarCliente(txtIdCedula.getText().trim()) == null) {
-    JOptionPane.showMessageDialog(this, "Cliente no válido.");
-    return;
+            JOptionPane.showMessageDialog(this, "Debe ingresar ID de Reserva.");
+            return;
+        }if (ArchivoUtil.buscarCliente(txtIdCedula.getText().trim()) == null) {
+            JOptionPane.showMessageDialog(this, "Cliente no válido.");
+            return;
 
-}
+        }
 
-        String cedula     = txtIdCedula.getText().trim();
-        String idOferta   = txtIdOferta.getText().trim();
-        String fechaRes   = lblFechaReserva.getText();
-        String fechaSal   = txtFechaSalida.getText().trim();
-        String fechaEnt   = txtFechaEntrada.getText().trim();
-        String dias       = lblDiasReserva.getText().replace(" días", "");
-        String total      = lblTotalReserva.getText().replace("RD$ ", "");
-        String obs        = txtObservacion.getText().trim();
+                String cedula     = txtIdCedula.getText().trim();
+                String idOferta   = txtIdOferta.getText().trim();
+                String fechaRes   = lblFechaReserva.getText();
+                String fechaSal   = txtFechaSalida.getText().trim();
+                String fechaEnt   = txtFechaEntrada.getText().trim();
+                String dias       = lblDiasReserva.getText().replace(" días", "");
+                String total      = lblTotalReserva.getText().replace("RD$ ", "");
+                String obs        = txtObservacion.getText().trim();
 
-        String idReserva = txtreserva.getText().trim();
+                String idReserva = txtreserva.getText().trim();
 
-String nuevaLinea = idReserva + ";" + matricula + ";" + cedula + ";" + idOferta + ";" +
-        fechaRes + ";" + fechaSal + ";" + fechaEnt + ";" +
-        obs + ";" + dias + ";" + total + ";" + "true";
+        String nuevaLinea = idReserva + ";" + matricula + ";" + cedula + ";" + idOferta + ";" +
+                fechaRes + ";" + fechaSal + ";" + fechaEnt + ";" +
+                obs + ";" + dias + ";" + total + ";" + "true";
 
-        ArchivoUtil.agregarLinea("reservas.txt", nuevaLinea);
-        cambiarStatusVehiculo(matricula, true);
-        JOptionPane.showMessageDialog(this, "Reserva guardada correctamente.");
-        limpiarTodo();
+                ArchivoUtil.agregarLinea("reservas.txt", nuevaLinea);
+                cambiarStatusVehiculo(matricula, true);
+                JOptionPane.showMessageDialog(this, "Reserva guardada correctamente.");
+                limpiarTodo();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -779,10 +842,92 @@ String nuevaLinea = idReserva + ";" + matricula + ";" + cedula + ";" + idOferta 
    
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void txtreservaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtreservaActionPerformed
+    String id = txtreserva.getText().trim();
+    if (id.isEmpty()) return;
+
+    String[] reserva = buscarReserva(id);
+
+    if (reserva != null) {
+
+        // CARGAR DATOS
+        txtIdMatricula.setText(reserva[1]);
+        txtIdCedula.setText(reserva[2]);
+        txtIdOferta.setText(reserva[3]);
+        lblFechaReserva.setText(reserva[4]);
+        txtFechaSalida.setText(reserva[5]);
+        txtFechaEntrada.setText(reserva[6]);
+        txtObservacion.setText(reserva[7]);
+        lblDiasReserva.setText(reserva[8] + " días");
+        lblTotalReserva.setText("RD$ " + reserva[9]);
+
+        String[] vehiculo = ArchivoUtil.buscarVehiculo(reserva[1]);
+
+        if (vehiculo != null) {
+            lblMarcaModelo.setText(vehiculo[1] + " " + vehiculo[2]);
+            lblDescVeh.setText(vehiculo[6]);
+
+            boolean status = vehiculo[13].trim().equalsIgnoreCase("true");
+
+            if (status) {
+                jRadioButton1.setText("Disponible");
+                jRadioButton1.setSelected(true);
+            } else {
+                jRadioButton1.setText("No Disponible");
+                jRadioButton1.setSelected(false);
+            }
+        }
+
+        // CARGAR CLIENTE
+        String[] cliente = ArchivoUtil.buscarCliente(reserva[2]);
+
+        if (cliente != null) {
+            lblNombreCliente.setText(cliente[1] + " " + cliente[2]);
+        }
+
+        // CARGAR OFERTA
+        if (!reserva[3].isEmpty()) {
+            String[] oferta = ArchivoUtil.buscarOferta(reserva[3]);
+
+            if (oferta != null) {
+                lblPrecioOferta.setText("RD$ " + oferta[3]);
+            }
+        }
+
+    } else {
+        JOptionPane.showMessageDialog(this, "Reserva no encontrada");
+        txtreserva.setText("");
+    }
+        
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_txtreservaActionPerformed
+
+    
+    private String[] buscarReserva(String idReserva) {
+    List<String> lineas = ArchivoUtil.leerArchivo("reservas.txt");
+
+    for (String linea : lineas) {
+        String[] datos = linea.split(";");
+
+        if (datos[0].equals(idReserva)) {
+            return datos;
+        }
+    }
+    return null;
+    
+    }
     
     private void borrarReserva(String idReserva) {
 
-    if (nivelUsuario != 2) { // 2 = admin (ajústalo si usas otro nivel)
+    if (nivelUsuario != 0) { // 0 = admin (ajústalo si usas otro nivel)
         JOptionPane.showMessageDialog(this, "Solo el administrador puede borrar.");
         return;
     }
@@ -800,8 +945,9 @@ String nuevaLinea = idReserva + ";" + matricula + ";" + cedula + ";" + idOferta 
             eliminado = true;
             break;
         }
+    
     }
-
+    
     if (eliminado) {
         ArchivoUtil.escribirArchivo("reservas.txt", lineas);
 
@@ -869,8 +1015,8 @@ String nuevaLinea = idReserva + ";" + matricula + ";" + cedula + ";" + idOferta 
     java.time.LocalDate hoy = java.time.LocalDate.now();
     lblFechaReserva.setText(hoy.toString());
     txtreserva.setText("");
-    jRadioButton1.setText("");
-    
+jRadioButton1.setText("Disponible");
+jRadioButton1.setSelected(false);    
 }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
