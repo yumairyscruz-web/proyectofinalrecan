@@ -35,7 +35,7 @@ public class DeVehiculo extends javax.swing.JFrame {
     boolean aire = jRadioButton3.isSelected();
     boolean cuero = jRadioButton5.isSelected();
     boolean auto = jRadioButton7.isSelected();
-    boolean status = jRadioButton9.isSelected();
+    boolean status = !jRadioButton9.isSelected();
 
     return txtMatricula.getText() + ";" +
            txtMarca.getText() + ";" +
