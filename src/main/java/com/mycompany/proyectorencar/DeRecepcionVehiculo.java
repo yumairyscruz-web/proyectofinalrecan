@@ -439,7 +439,7 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
                 ArchivoUtil.agregarLinea("recepciones.txt", nuevaLinea);
             }
 
-            cambiarStatusVehiculo(matricula, false);
+            cambiarStatusVehiculo(matricula, true);
             JOptionPane.showMessageDialog(this, "Recepción guardada correctamente.");
             limpiarTodo();
 

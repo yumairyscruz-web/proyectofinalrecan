@@ -4,6 +4,7 @@
  */
 package com.mycompany.proyectorencar;
 
+import static com.mycompany.proyectorencar.ArchivoUtil.leerArchivo;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -53,43 +54,6 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     }
     
     
-    
-  private void cargarVehiculoYOferta() {
-        String matricula = txtIdMatricula.getText().trim();
-        if (matricula.isEmpty()) return;
-
-        String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
-
-        if (vehiculo != null) {
-
-            boolean status = vehiculo[13].trim().equalsIgnoreCase("true");
-
-            lblMarcaModelo.setText(vehiculo[1] + " " + vehiculo[2]);
-            lblDescVeh.setText(vehiculo[6]);
-
-            if (status) {
-                jRadioButton1.setText("Disponible");
-                jRadioButton1.setSelected(true);
-            } else {
-                jRadioButton1.setText("No Disponible");
-                jRadioButton1.setSelected(false);
-            }
-
-            String[] oferta = ArchivoUtil.buscarOfertaPorMatricula(matricula);
-
-            if (oferta != null) {
-                txtIdOferta.setText(oferta[0]);
-                lblPrecioOferta.setText("RD$ " + oferta[3]);
-            } else {
-                txtIdOferta.setText("");
-                lblPrecioOferta.setText("");
-            }
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Matrícula no existe.");
-            txtIdMatricula.setText("");
-        }
-    }
 
     private void volverAlMenu() {
         new MenuPrincipal(usuario, nivelUsuario, nombre, apellido).setVisible(true);
@@ -626,51 +590,36 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtIdMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdMatriculaActionPerformed
+   
+    
     String matricula = txtIdMatricula.getText().trim();
     if (matricula.isEmpty()) return;
 
-    cargarVehiculoYOferta(); 
     String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
 
-    if (vehiculo != null) {
-
-        // true = Disponible, false = No disponible
-        boolean status = vehiculo[13].trim().equalsIgnoreCase("true");
-
-        // CARGAR DATOS
-        lblMarcaModelo.setText(vehiculo[1] + " " + vehiculo[2]);
-        lblDescVeh.setText(vehiculo[6]);
-
-        // MOSTRAR STATUS CORRECTO
-        if (status) {
-            jRadioButton1.setText("Disponible");
-            jRadioButton1.setSelected(true);
-        } else {
-            jRadioButton1.setText("No Disponible");
-            jRadioButton1.setSelected(false);
-        }
-
-        // VALIDAR SI NO ESTÁ DISPONIBLE
-        if (!status) {
-            JOptionPane.showMessageDialog(this, "Este vehículo no está disponible.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // BUSCAR OFERTA
-        String[] oferta = ArchivoUtil.buscarOfertaPorMatricula(matricula);
-
-        if (oferta != null) {
-            txtIdOferta.setText(oferta[0]);
-            lblPrecioOferta.setText("RD$ " + oferta[3]);
-        } else {
-            txtIdOferta.setText("");
-            lblPrecioOferta.setText("");
-        }
-
-    } else {
+    if (vehiculo == null) {
         JOptionPane.showMessageDialog(this, "Matrícula no existe.");
-        txtIdMatricula.setText("");
-        jRadioButton1.setSelected(false);
-        jRadioButton1.setText("Disponible");
+        return;
+    }
+
+    lblMarcaModelo.setText(vehiculo[1] + " " + vehiculo[2]);
+    lblDescVeh.setText(vehiculo[6]);
+
+    boolean status = vehiculo[13].trim().equalsIgnoreCase("true");
+
+    jRadioButton1.setText(status ? "Disponible" : "No Disponible");
+    jRadioButton1.setSelected(status);
+
+ 
+
+    String[] oferta = ArchivoUtil.buscarOfertaPorMatricula(matricula);
+
+    if (oferta != null && oferta.length > 3) {
+        txtIdOferta.setText(oferta[0]);
+        lblPrecioOferta.setText("RD$ " + oferta[3]);
+    } else {
+        txtIdOferta.setText("");
+        lblPrecioOferta.setText("RD$ 0");
     }
 
 
@@ -691,8 +640,14 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         java.time.LocalDate entrada = java.time.LocalDate.parse(txtFechaEntrada.getText().trim());
         java.time.LocalDate reserva = java.time.LocalDate.parse(lblFechaReserva.getText());
 
+        // VALIDACIONES
         if (salida.isBefore(reserva)) {
             JOptionPane.showMessageDialog(this, "Fecha salida menor que fecha reserva");
+            return;
+        }
+
+        if (entrada.isBefore(reserva)) {
+            JOptionPane.showMessageDialog(this, "Fecha entrada menor que fecha reserva");
             return;
         }
 
@@ -702,8 +657,15 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         }
 
         long dias = java.time.temporal.ChronoUnit.DAYS.between(salida, entrada);
+
+        if (dias <= 0) {
+            JOptionPane.showMessageDialog(this, "Los días deben ser mayores a 0.");
+            return;
+        }
+
         lblDiasReserva.setText(dias + " días");
 
+        // PRECIO
         String idOferta = txtIdOferta.getText().trim();
         double precio;
 
@@ -718,8 +680,9 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         lblTotalReserva.setText("RD$ " + total);
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Formato de fecha inválido (YYYY-MM-DD)");
+        JOptionPane.showMessageDialog(this, "Formato inválido. Use YYYY-MM-DD");
     }
+
 
     }//GEN-LAST:event_txtFechaEntradaActionPerformed
 
@@ -767,60 +730,125 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdOfertaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if (txtIdMatricula.getText().trim().isEmpty() ||
-            txtIdCedula.getText().trim().isEmpty() ||
-            txtFechaSalida.getText().trim().isEmpty() ||
-            txtFechaEntrada.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Complete todos los campos obligatorios.");
+
+    if (txtIdMatricula.getText().trim().isEmpty() ||
+        txtIdCedula.getText().trim().isEmpty() ||
+        txtFechaSalida.getText().trim().isEmpty() ||
+        txtFechaEntrada.getText().trim().isEmpty()) {
+
+        JOptionPane.showMessageDialog(this, "Complete todos los campos obligatorios.");
+        return;
+    }
+
+    String matricula = txtIdMatricula.getText().trim();
+    String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
+
+    if (vehiculo == null) {
+        JOptionPane.showMessageDialog(this, "Vehículo no existe.");
+        return;
+    }
+
+    
+
+    String idReserva = txtreserva.getText().trim();
+
+    if (idReserva.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Debe ingresar ID de Reserva.");
+        return;
+    }
+
+    if (ArchivoUtil.buscarCliente(txtIdCedula.getText().trim()) == null) {
+        JOptionPane.showMessageDialog(this, "Cliente no válido.");
+        return;
+    }
+
+    String cedula   = txtIdCedula.getText().trim();
+    String idOferta = txtIdOferta.getText().trim();
+
+    // ✅ VALIDAR OFERTA SI SE DIGITA
+    if (!idOferta.isEmpty() && ArchivoUtil.buscarOferta(idOferta) == null) {
+        JOptionPane.showMessageDialog(this, "Oferta no válida.");
+        return;
+    }
+
+    String fechaRes = lblFechaReserva.getText();
+    String fechaSal = txtFechaSalida.getText().trim();
+    String fechaEnt = txtFechaEntrada.getText().trim();
+    String dias     = lblDiasReserva.getText().replace(" días", "");
+    String total    = lblTotalReserva.getText().replace("RD$ ", "");
+    String obs      = txtObservacion.getText().trim();
+
+    //  VALIDAR QUE YA SE CALCULÓ
+    if (dias.isEmpty() || total.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Debe calcular los días y el total.");
+        return;
+    }
+
+    //  VALIDAR CRUCE DE FECHAS
+    if (!vehiculoDisponiblePorFechas(matricula, fechaSal, fechaEnt)) {
+        JOptionPane.showMessageDialog(this, "Vehículo no disponible en esas fechas.");
+        return;
+    }
+
+    String nuevaLinea = idReserva + ";" + matricula + ";" + cedula + ";" + idOferta + ";" +
+            fechaRes + ";" + fechaSal + ";" + fechaEnt + ";" +
+            obs + ";" + dias + ";" + total + ";" + "true";
+
+    List<String> lineas = ArchivoUtil.leerArchivo("reservas.txt");
+
+    // PROHIBIDO MODIFICAR → SOLO VALIDAR SI EXISTE
+    for (String linea : lineas) {
+        String[] datos = linea.split(";");
+
+        if (datos[0].equals(idReserva)) {
+            JOptionPane.showMessageDialog(this, "La reserva ya existe, no se puede modificar.");
             return;
         }
-        
-        
-     
-        String matricula = txtIdMatricula.getText().trim();
-        String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
+    }
 
-        if (vehiculo == null) {
-            JOptionPane.showMessageDialog(this, "Vehículo no existe.");
-            return;
-        }
+    //  SOLO CREA
+    lineas.add(nuevaLinea);
 
-        if (vehiculo[13].equals("false")) {
-            JOptionPane.showMessageDialog(this, "Vehículo no disponible.");
-            return;
-        }
+    ArchivoUtil.escribirArchivo("reservas.txt", lineas);
 
-        
-        if (txtreserva.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar ID de Reserva.");
-            return;
-        }if (ArchivoUtil.buscarCliente(txtIdCedula.getText().trim()) == null) {
-            JOptionPane.showMessageDialog(this, "Cliente no válido.");
-            return;
+    //  CAMBIAR A RESERVADO (false)
+    cambiarStatusVehiculo(matricula, false);
 
-        }
+    JOptionPane.showMessageDialog(this, "Reserva guardada correctamente.");
+    limpiarTodo();
 
-                String cedula     = txtIdCedula.getText().trim();
-                String idOferta   = txtIdOferta.getText().trim();
-                String fechaRes   = lblFechaReserva.getText();
-                String fechaSal   = txtFechaSalida.getText().trim();
-                String fechaEnt   = txtFechaEntrada.getText().trim();
-                String dias       = lblDiasReserva.getText().replace(" días", "");
-                String total      = lblTotalReserva.getText().replace("RD$ ", "");
-                String obs        = txtObservacion.getText().trim();
 
-                String idReserva = txtreserva.getText().trim();
-
-        String nuevaLinea = idReserva + ";" + matricula + ";" + cedula + ";" + idOferta + ";" +
-                fechaRes + ";" + fechaSal + ";" + fechaEnt + ";" +
-                obs + ";" + dias + ";" + total + ";" + "true";
-
-                ArchivoUtil.agregarLinea("reservas.txt", nuevaLinea);
-                cambiarStatusVehiculo(matricula, true);
-                JOptionPane.showMessageDialog(this, "Reserva guardada correctamente.");
-                limpiarTodo();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    
+    
+private boolean vehiculoDisponiblePorFechas(String matricula, String nuevaSalida, String nuevaEntrada) {
+    List<String> reservas = ArchivoUtil.leerArchivo("reservas.txt");
+
+    java.time.LocalDate salidaNueva = java.time.LocalDate.parse(nuevaSalida);
+    java.time.LocalDate entradaNueva = java.time.LocalDate.parse(nuevaEntrada);
+
+    for (String linea : reservas) {
+        String[] datos = linea.split(";");
+
+        if (!datos[1].equalsIgnoreCase(matricula)) continue;
+        if (!datos[10].equalsIgnoreCase("true")) continue;
+
+        java.time.LocalDate salidaExistente = java.time.LocalDate.parse(datos[5]);
+        java.time.LocalDate entradaExistente = java.time.LocalDate.parse(datos[6]);
+
+        if (salidaNueva.isBefore(entradaExistente) && entradaNueva.isAfter(salidaExistente)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+    
+    
+    
+    
+    
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
     String idReserva = txtreserva.getText().trim();
 
@@ -951,7 +979,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     if (eliminado) {
         ArchivoUtil.escribirArchivo("reservas.txt", lineas);
 
-        cambiarStatusVehiculo(matricula, false);
+        cambiarStatusVehiculo(matricula, true);
 
         JOptionPane.showMessageDialog(this, "Reserva eliminada.");
     } else {
@@ -960,6 +988,8 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
 }
     
     
+    
+
     /**
      * @param args the command line arguments
      */

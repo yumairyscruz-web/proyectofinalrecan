@@ -1,1 +1,3 @@
-1234;A1234;2026-04-20;Vehiculo entregado en buenas condiciones
+1;C1234;2026-04-27;Vehiculo entregado en buenas condiciones
+
+2;Y1234;2026-04-18;Entregado a tiempo pero con una puerta media rayada
