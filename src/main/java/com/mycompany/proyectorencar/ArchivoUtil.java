@@ -96,13 +96,13 @@ public static String[] buscarReservaPorMatricula(String matricula) {
     List<String> lineas = leerArchivo("reservas.txt");
     for (String linea : lineas) {
         String[] partes = linea.split(";");
-        if (partes[0].equalsIgnoreCase(matricula)) return partes;
+        if (partes[1].equalsIgnoreCase(matricula)) return partes;
     }
     return null;
 }
 
 public static String[] buscarOfertaPorMatricula(String matricula) {
-    List<String> lineas = leerArchivo("ofertas.txt");
+    List<String> lineas = leerArchivo("Oferta.txt");
 
     for (String linea : lineas) {
         String[] datos = linea.split(";");

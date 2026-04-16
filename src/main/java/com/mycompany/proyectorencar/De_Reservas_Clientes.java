@@ -4,6 +4,8 @@
  */
 package com.mycompany.proyectorencar;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -46,6 +48,74 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                 volverAlMenu();
             }
         });
+        
+        com.toedter.calendar.JDateChooser dateChooserSalida = jDateChooser2;
+        com.toedter.calendar.JDateChooser dateChooserEntrada = jDateChooser3;
+        
+        dateChooserSalida.getDateEditor().addPropertyChangeListener(e -> {
+            if ("date".equals(e.getPropertyName())) {
+                calcularReserva();
+            }
+        });
+        
+        dateChooserEntrada.getDateEditor().addPropertyChangeListener(e -> {
+            if ("date".equals(e.getPropertyName())) {
+                calcularReserva();
+            }
+        });
+    }
+    
+    private void calcularReserva() {
+        Date fechaSalidaDate = jDateChooser2.getDate();
+        Date fechaEntradaDate = jDateChooser3.getDate();
+
+        if (fechaSalidaDate == null || fechaEntradaDate == null) {
+            return;
+        }
+
+        try {
+            java.time.LocalDate salida = fechaSalidaDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+            java.time.LocalDate entrada = fechaEntradaDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+            java.time.LocalDate reserva = java.time.LocalDate.parse(lblFechaReserva.getText());
+            java.time.LocalDate hoy = java.time.LocalDate.now();
+
+            if (salida.isBefore(hoy)) {
+                JOptionPane.showMessageDialog(this, "La fecha de salida no puede ser anterior a hoy.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (salida.isBefore(reserva)) {
+                JOptionPane.showMessageDialog(this, "Fecha salida menor que fecha reserva", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if (entrada.isBefore(salida)) {
+                JOptionPane.showMessageDialog(this, "La fecha de entrada no puede ser antes de la salida.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            long dias = java.time.temporal.ChronoUnit.DAYS.between(salida, entrada);
+            lblDiasReserva.setText(dias + " días");
+
+            String idOferta = txtIdOferta.getText().trim();
+            double precio;
+
+            if (!idOferta.isEmpty() && ArchivoUtil.buscarOferta(idOferta) != null) {
+                precio = Double.parseDouble(ArchivoUtil.buscarOferta(idOferta)[3]);
+            } else {
+                String matricula = txtIdMatricula.getText().trim();
+                if (matricula.isEmpty()) return;
+                String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
+                if (vehiculo == null) return;
+                precio = Double.parseDouble(vehiculo[7]);
+            }
+
+            double total = precio * dias;
+            lblTotalReserva.setText("RD$ " + total);
+
+        } catch (Exception e) {
+            // Ignorar errores mientras se selecciona la fecha
+        }
     }
     
     private void volverAlMenu() {
@@ -64,6 +134,14 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
 
         jProgressBar1 = new javax.swing.JProgressBar();
         scrollPane1 = new java.awt.ScrollPane();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        jInternalFrame1 = new javax.swing.JInternalFrame();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -97,13 +175,13 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         lblFechaReserva = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        txtFechaSalida = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        txtFechaEntrada = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         lblDiasReserva = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         lblTotalReserva = new javax.swing.JTextField();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jDateChooser3 = new com.toedter.calendar.JDateChooser();
         jPanel7 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -111,6 +189,31 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+
+        jRadioButton2.setText("jRadioButton2");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane3.setViewportView(jTextArea2);
+
+        jInternalFrame1.setVisible(true);
+
+        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
+        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
+        jInternalFrame1Layout.setHorizontalGroup(
+            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jInternalFrame1Layout.setVerticalGroup(
+            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jScrollPane4.setViewportView(jTextPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -159,7 +262,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         lblDescVeh.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 1, true));
 
         jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel20.setText("Id de Reserva");
+        jLabel20.setText("ID de Reserva");
 
         txtreserva.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 1, true));
 
@@ -187,10 +290,9 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblMarcaModelo, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
                             .addComponent(jLabel1)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel20)
-                                .addComponent(jLabel3))
-                            .addComponent(txtreserva))
+                            .addComponent(jLabel3)
+                            .addComponent(txtreserva)
+                            .addComponent(jLabel20))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -294,6 +396,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setText("ID Oferta");
 
+        txtIdOferta.setEditable(false);
         txtIdOferta.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 1, true));
         txtIdOferta.addActionListener(this::txtIdOfertaActionPerformed);
 
@@ -314,8 +417,10 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
                     .addComponent(jLabel8)
-                    .addComponent(txtIdOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(txtIdOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(lblPrecioOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -354,13 +459,8 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel14.setText("Fecha de Salida");
 
-        txtFechaSalida.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 1, true));
-
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel15.setText("Fecha de Entrada");
-
-        txtFechaEntrada.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 1, true));
-        txtFechaEntrada.addActionListener(this::txtFechaEntradaActionPerformed);
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel16.setText("Días de Reserva");
@@ -391,21 +491,21 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel14)
-                            .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 45, Short.MAX_VALUE)
+                            .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel15)
-                            .addComponent(txtFechaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27))
+                            .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel16)
-                                    .addComponent(lblDiasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblDiasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel16))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel17)
                                     .addComponent(lblTotalReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -421,20 +521,19 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                     .addComponent(jLabel14)
                     .addComponent(jLabel15))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtFechaEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtFechaSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblFechaReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(lblFechaReserva)
+                    .addComponent(jDateChooser3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
                     .addComponent(jLabel17))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTotalReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDiasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(47, Short.MAX_VALUE))
+                    .addComponent(lblDiasReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTotalReserva, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(74, 74, 74))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -465,8 +564,8 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -493,7 +592,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                     .addComponent(txtObservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19)
                     .addComponent(jLabel18))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -529,19 +628,21 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 27, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
+                        .addGap(41, 41, 41)
                         .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
-                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(31, 31, 31))
+                        .addGap(35, 35, 35)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 21, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -549,13 +650,12 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -564,13 +664,14 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1))
+            .addComponent(jScrollPane1)
         );
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -592,6 +693,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         if (status) {
             JOptionPane.showMessageDialog(this, "Este vehículo ya está reservado.", "Error", JOptionPane.ERROR_MESSAGE);
             txtIdMatricula.setText("");
+            jRadioButton1.setEnabled(true);
             return;
         }
 
@@ -604,6 +706,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
             jRadioButton1.setText("No Disponible");
             jRadioButton1.setSelected(false);
         }
+        jRadioButton1.setEnabled(false);
 
         String[] oferta = ArchivoUtil.buscarOfertaPorMatricula(matricula);
 
@@ -614,11 +717,16 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
             txtIdOferta.setText("");
             lblPrecioOferta.setText("");
         }
+        
+        if (jDateChooser2.getDate() != null && jDateChooser3.getDate() != null) {
+            calcularReserva();
+        }
 
     } else {
         JOptionPane.showMessageDialog(this, "Matrícula no existe.");
         txtIdMatricula.setText("");
         jRadioButton1.setSelected(false);
+        jRadioButton1.setEnabled(true);
     }
 
     
@@ -634,17 +742,31 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
 
     private void txtFechaEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFechaEntradaActionPerformed
     try {
-        java.time.LocalDate salida = java.time.LocalDate.parse(txtFechaSalida.getText().trim());
-        java.time.LocalDate entrada = java.time.LocalDate.parse(txtFechaEntrada.getText().trim());
+        Date fechaSalidaDate = jDateChooser2.getDate();
+        Date fechaEntradaDate = jDateChooser3.getDate();
+
+        if (fechaSalidaDate == null || fechaEntradaDate == null) {
+            JOptionPane.showMessageDialog(this, "Seleccione ambas fechas.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        java.time.LocalDate salida = fechaSalidaDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        java.time.LocalDate entrada = fechaEntradaDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
         java.time.LocalDate reserva = java.time.LocalDate.parse(lblFechaReserva.getText());
+        java.time.LocalDate hoy = java.time.LocalDate.now();
+
+        if (salida.isBefore(hoy)) {
+            JOptionPane.showMessageDialog(this, "La fecha de salida no puede ser anterior a hoy.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         if (salida.isBefore(reserva)) {
-            JOptionPane.showMessageDialog(this, "Fecha salida menor que fecha reserva");
+            JOptionPane.showMessageDialog(this, "Fecha salida menor que fecha reserva", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         if (entrada.isBefore(salida)) {
-            JOptionPane.showMessageDialog(this, "La fecha de entrada no puede ser antes de la salida.");
+            JOptionPane.showMessageDialog(this, "La fecha de entrada no puede ser antes de la salida.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -665,7 +787,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         lblTotalReserva.setText("RD$ " + total);
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Formato de fecha inválido (YYYY-MM-DD)");
+        JOptionPane.showMessageDialog(this, "Error al procesar las fechas.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     }//GEN-LAST:event_txtFechaEntradaActionPerformed
@@ -710,19 +832,21 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
             lblPrecioOferta.setText("");
         }
     }
+    
+    calcularReserva();
 
     }//GEN-LAST:event_txtIdOfertaActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (txtIdMatricula.getText().trim().isEmpty() ||
             txtIdCedula.getText().trim().isEmpty() ||
-            txtFechaSalida.getText().trim().isEmpty() ||
-            txtFechaEntrada.getText().trim().isEmpty()) {
+            jDateChooser2.getDate() == null ||
+            jDateChooser3.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Complete todos los campos obligatorios.");
             return;
         }
-        
-        
+         
+         
      
         String matricula = txtIdMatricula.getText().trim();
         String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
@@ -747,11 +871,12 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
 
         }
 
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String cedula     = txtIdCedula.getText().trim();
                 String idOferta   = txtIdOferta.getText().trim();
                 String fechaRes   = lblFechaReserva.getText();
-                String fechaSal   = txtFechaSalida.getText().trim();
-                String fechaEnt   = txtFechaEntrada.getText().trim();
+                String fechaSal   = sdf.format(jDateChooser2.getDate());
+                String fechaEnt   = sdf.format(jDateChooser3.getDate());
                 String dias       = lblDiasReserva.getText().replace(" días", "");
                 String total      = lblTotalReserva.getText().replace("RD$ ", "");
                 String obs        = txtObservacion.getText().trim();
@@ -871,8 +996,8 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     txtIdMatricula.setText("");
     txtIdCedula.setText("");
     txtIdOferta.setText("");
-    txtFechaSalida.setText("");
-    txtFechaEntrada.setText("");
+    jDateChooser2.setDate(null);
+    jDateChooser3.setDate(null);
     txtObservacion.setText("");
     lblMarcaModelo.setText("");
     lblDescVeh.setText("");
@@ -884,6 +1009,7 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     lblFechaReserva.setText(hoy.toString());
     txtreserva.setText("");
     jRadioButton1.setText("");
+    jRadioButton1.setEnabled(true);
     
 }
     
@@ -891,6 +1017,9 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private com.toedter.calendar.JDateChooser jDateChooser3;
+    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -921,7 +1050,14 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JTextField lblDescVeh;
     private javax.swing.JTextField lblDiasReserva;
     private javax.swing.JTextField lblFechaReserva;
@@ -930,8 +1066,6 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     private javax.swing.JTextField lblPrecioOferta;
     private javax.swing.JTextField lblTotalReserva;
     private java.awt.ScrollPane scrollPane1;
-    private javax.swing.JTextField txtFechaEntrada;
-    private javax.swing.JTextField txtFechaSalida;
     private javax.swing.JTextField txtIdCedula;
     private javax.swing.JTextField txtIdMatricula;
     private javax.swing.JTextField txtIdOferta;

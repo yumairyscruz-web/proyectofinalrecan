@@ -545,6 +545,43 @@ g4.add(jRadioButton8);
                 jRadioButton8.setSelected(!auto);                
                  boolean status = Boolean.parseBoolean(datos[13]);
                     jRadioButton9.setSelected(status);
+                    if (status) {
+                        jRadioButton9.setText("Reservado");
+                        jRadioButton9.setEnabled(false);
+                        txtMarca.setEditable(false);
+                        txtModelo.setEditable(false);
+                        comboTipoVehiculo.setEnabled(false);
+                        comboTipoMotor.setEnabled(false);
+                        gamastxt.setEditable(false);
+                        txtColor.setEditable(false);
+                        jRadioButton1.setEnabled(false);
+                        jRadioButton2.setEnabled(false);
+                        jRadioButton3.setEnabled(false);
+                        jRadioButton4.setEnabled(false);
+                        jRadioButton5.setEnabled(false);
+                        jRadioButton6.setEnabled(false);
+                        jRadioButton7.setEnabled(false);
+                        jRadioButton8.setEnabled(false);
+                        btnGuardar.setEnabled(false);
+                    } else {
+                        jRadioButton9.setText("Disponible");
+                        jRadioButton9.setEnabled(true);
+                        txtMarca.setEditable(true);
+                        txtModelo.setEditable(true);
+                        comboTipoVehiculo.setEnabled(true);
+                        comboTipoMotor.setEnabled(true);
+                        gamastxt.setEditable(true);
+                        txtColor.setEditable(true);
+                        jRadioButton1.setEnabled(true);
+                        jRadioButton2.setEnabled(true);
+                        jRadioButton3.setEnabled(true);
+                        jRadioButton4.setEnabled(true);
+                        jRadioButton5.setEnabled(true);
+                        jRadioButton6.setEnabled(true);
+                        jRadioButton7.setEnabled(true);
+                        jRadioButton8.setEnabled(true);
+                        btnGuardar.setEnabled(true);
+                    }
                 lblMensaje.setText("Modificando...");
                 existe = true;
                 break;
@@ -555,6 +592,24 @@ g4.add(jRadioButton8);
             limpiarCampos();
             txtMatricula.setText(matricula);
             lblMensaje.setText("Creando...");
+            
+            txtMarca.setEditable(true);
+            txtModelo.setEditable(true);
+            comboTipoVehiculo.setEnabled(true);
+            comboTipoMotor.setEnabled(true);
+            gamastxt.setEditable(true);
+            txtColor.setEditable(true);
+            jRadioButton1.setEnabled(true);
+            jRadioButton2.setEnabled(true);
+            jRadioButton3.setEnabled(true);
+            jRadioButton4.setEnabled(true);
+            jRadioButton5.setEnabled(true);
+            jRadioButton6.setEnabled(true);
+            jRadioButton7.setEnabled(true);
+            jRadioButton8.setEnabled(true);
+            jRadioButton9.setText("Disponible");
+            jRadioButton9.setEnabled(true);
+            btnGuardar.setEnabled(true);
         }
 
     } catch (IOException e) {
@@ -659,13 +714,12 @@ g4.add(jRadioButton8);
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
 
-
     txtMatricula.setText("");
     txtMarca.setText("");
     txtModelo.setText("");
     gamastxt.setText("");
     txtDescripcion.setText("");
-        txtPrecio.setText("");
+    txtPrecio.setText("");
 
     txtColor.setText("");
     
@@ -678,10 +732,29 @@ g4.add(jRadioButton8);
     
     
      g1.clearSelection();
-g2.clearSelection();
-g3.clearSelection();
-g4.clearSelection();
-jRadioButton9.setSelected(false);        
+ g2.clearSelection();
+ g3.clearSelection();
+ g4.clearSelection();
+ jRadioButton9.setSelected(false);  
+ jRadioButton9.setText("Disponible");
+ jRadioButton9.setEnabled(true);
+ 
+    txtMarca.setEditable(true);
+    txtModelo.setEditable(true);
+    comboTipoVehiculo.setEnabled(true);
+    comboTipoMotor.setEnabled(true);
+    gamastxt.setEditable(true);
+    txtColor.setEditable(true);
+    jRadioButton1.setEnabled(true);
+    jRadioButton2.setEnabled(true);
+    jRadioButton3.setEnabled(true);
+    jRadioButton4.setEnabled(true);
+    jRadioButton5.setEnabled(true);
+    jRadioButton6.setEnabled(true);
+    jRadioButton7.setEnabled(true);
+    jRadioButton8.setEnabled(true);
+    btnGuardar.setEnabled(true);
+        
         
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
@@ -769,6 +842,24 @@ jRadioButton9.setSelected(false);
 
     // ESTE ES EL IMPORTANTE
     jRadioButton9.setSelected(false);
+    jRadioButton9.setText("Disponible");
+    jRadioButton9.setEnabled(true);
+    
+    txtMarca.setEditable(true);
+    txtModelo.setEditable(true);
+    comboTipoVehiculo.setEnabled(true);
+    comboTipoMotor.setEnabled(true);
+    gamastxt.setEditable(true);
+    txtColor.setEditable(true);
+    jRadioButton1.setEnabled(true);
+    jRadioButton2.setEnabled(true);
+    jRadioButton3.setEnabled(true);
+    jRadioButton4.setEnabled(true);
+    jRadioButton5.setEnabled(true);
+    jRadioButton6.setEnabled(true);
+    jRadioButton7.setEnabled(true);
+    jRadioButton8.setEnabled(true);
+    btnGuardar.setEnabled(true);
 
     comboTipoVehiculo.setSelectedIndex(0);
     comboTipoMotor.setSelectedIndex(0);

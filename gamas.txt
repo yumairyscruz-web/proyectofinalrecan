@@ -2,3 +2,4 @@
 2,Gama media,2000.0
 3,Gama alta,3000.0
 4,Gama,4000.0
+99,Gama super alta,10000.0

@@ -5,6 +5,8 @@
 package com.mycompany.proyectorencar;
 
 import java.awt.HeadlessException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -82,9 +84,9 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        txtFechaRecepcion = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtObservacion = new javax.swing.JTextField();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         btnLimpiar = new javax.swing.JButton();
         btnGuardar = new javax.swing.JButton();
 
@@ -242,8 +244,6 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel10.setText("Fecha de Recepción");
 
-        txtFechaRecepcion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 255), 1, true));
-
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel11.setText("Observación");
 
@@ -258,10 +258,10 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtObservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 549, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel11)
                         .addComponent(jLabel10)
-                        .addComponent(jLabel9)
-                        .addComponent(txtFechaRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 547, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabel9)))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
@@ -272,8 +272,8 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtFechaRecepcion, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtObservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -369,8 +369,14 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
         lblEstado.setForeground(java.awt.Color.BLUE);
         modoModificar = true;
         txtIdMatricula.setText(recepcion[1]);
-        txtFechaRecepcion.setText(recepcion[2]);
-        txtObservacion.setText(recepcion[3]);
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date fecha = sdf.parse(recepcion[2]);
+            jDateChooser1.setDate(fecha);
+        } catch (Exception e) {
+            jDateChooser1.setDate(null);
+        }
+        txtObservacion.setText(recepcion.length > 3 ? recepcion[3] : "");
         String[] vehiculo = ArchivoUtil.buscarVehiculo(recepcion[1]);
         if (vehiculo != null) lblMarcaModelo.setText(vehiculo[1] + " " + vehiculo[2]);
     } else {
@@ -402,27 +408,35 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         if (txtIdRecepcion.getText().trim().isEmpty() ||
             txtIdMatricula.getText().trim().isEmpty() ||
-            txtFechaRecepcion.getText().trim().isEmpty()) {
+            jDateChooser1.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Complete todos los campos obligatorios.");
             return;
         }
 
         try {
-            java.time.LocalDate fechaRec = java.time.LocalDate.parse(txtFechaRecepcion.getText().trim());
+            Date fechaRecDate = jDateChooser1.getDate();
+            java.time.LocalDate fechaRec = fechaRecDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+            java.time.LocalDate hoy = java.time.LocalDate.now();
             String matricula = txtIdMatricula.getText().trim();
             String[] reserva = ArchivoUtil.buscarReservaPorMatricula(matricula);
+
+            if (fechaRec.isBefore(hoy)) {
+                JOptionPane.showMessageDialog(this, "La fecha de recepción no puede ser anterior a hoy.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
             if (reserva != null) {
                 java.time.LocalDate fechaEntradaReserva = java.time.LocalDate.parse(reserva[5]);
                 if (fechaRec.isBefore(fechaEntradaReserva)) {
-                    JOptionPane.showMessageDialog(this, "La fecha de recepción no puede ser antes de la fecha de entrada de la reserva.");
+                    JOptionPane.showMessageDialog(this, "La fecha de recepción no puede ser antes de la fecha de entrada de la reserva.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
             }
 
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             String nuevaLinea = txtIdRecepcion.getText().trim() + ";" +
                     matricula + ";" +
-                    txtFechaRecepcion.getText().trim() + ";" +
+                    sdf.format(fechaRecDate) + ";" +
                     txtObservacion.getText().trim();
 
             if (modoModificar) {
@@ -443,9 +457,9 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Recepción guardada correctamente.");
             limpiarTodo();
 
-        } catch (HeadlessException e) {
-            JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Utilizar: YYYY-MM-DD");
-}
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al procesar la fecha.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -493,7 +507,7 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
 
     private void limpiarCamposExceptoId() {
         txtIdMatricula.setText("");
-        txtFechaRecepcion.setText("");
+        jDateChooser1.setDate(null);
         txtObservacion.setText("");
         lblMarcaModelo.setText("");
         lblFechaEntradaReserva.setText("");
@@ -510,6 +524,7 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -530,7 +545,6 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
     private javax.swing.JTextField lblEstado;
     private javax.swing.JTextField lblFechaEntradaReserva;
     private javax.swing.JTextField lblMarcaModelo;
-    private javax.swing.JTextField txtFechaRecepcion;
     private javax.swing.JTextField txtIdMatricula;
     private javax.swing.JTextField txtIdRecepcion;
     private javax.swing.JTextField txtObservacion;
