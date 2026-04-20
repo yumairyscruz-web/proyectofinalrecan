@@ -35,7 +35,7 @@ public class DeVehiculo extends javax.swing.JFrame {
     boolean aire = jRadioButton3.isSelected();
     boolean cuero = jRadioButton5.isSelected();
     boolean auto = jRadioButton7.isSelected();
-    boolean status = jRadioButton9.isSelected();
+    boolean status = jRadioButton9.isSelected(); // true = disponible, false = reservado
 
     return txtMatricula.getText() + ";" +
            txtMarca.getText() + ";" +
@@ -172,6 +172,7 @@ g4.add(jRadioButton8);
         lblMensaje = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         txtPrecio = new javax.swing.JTextField();
+        jRadioButton11 = new javax.swing.JRadioButton();
 
         jScrollPane1.setViewportView(jEditorPane1);
 
@@ -313,6 +314,11 @@ g4.add(jRadioButton8);
         txtPrecio.setEditable(false);
         txtPrecio.addActionListener(this::txtPrecioActionPerformed);
 
+        jRadioButton11.setBackground(new java.awt.Color(153, 153, 153));
+        jRadioButton11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jRadioButton11.setText("Reservado");
+        jRadioButton11.addActionListener(this::jRadioButton11ActionPerformed);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -362,14 +368,7 @@ g4.add(jRadioButton8);
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel14)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jRadioButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(12, 12, 12))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                    .addGap(10, 10, 10)
-                                    .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel14))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -395,7 +394,17 @@ g4.add(jRadioButton8);
                                         .addComponent(jRadioButton3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jRadioButton4)))
-                                .addGap(10, 10, 10)))))
+                                .addGap(10, 10, 10))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jRadioButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(43, 43, 43)
+                        .addComponent(jRadioButton11)))
                 .addGap(30, 89, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -437,7 +446,7 @@ g4.add(jRadioButton8);
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14))
@@ -461,10 +470,12 @@ g4.add(jRadioButton8);
                     .addComponent(jRadioButton8)
                     .addComponent(jRadioButton5)
                     .addComponent(jRadioButton6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jRadioButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jRadioButton9, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -545,9 +556,11 @@ g4.add(jRadioButton8);
                 jRadioButton8.setSelected(!auto);                
                  boolean disponible = Boolean.parseBoolean(datos[13]);
                     jRadioButton9.setSelected(disponible);
+                    jRadioButton11.setSelected(!disponible);
+                    
                     if (!disponible) {
-                        jRadioButton9.setText("Reservado");
                         jRadioButton9.setEnabled(false);
+                        jRadioButton11.setEnabled(false);
                         txtMarca.setEditable(false);
                         txtModelo.setEditable(false);
                         comboTipoVehiculo.setEnabled(false);
@@ -564,8 +577,8 @@ g4.add(jRadioButton8);
                         jRadioButton8.setEnabled(false);
                         btnGuardar.setEnabled(false);
                     } else {
-                        jRadioButton9.setText("Disponible");
                         jRadioButton9.setEnabled(true);
+                        jRadioButton11.setEnabled(true);
                         txtMarca.setEditable(true);
                         txtModelo.setEditable(true);
                         comboTipoVehiculo.setEnabled(true);
@@ -607,8 +620,8 @@ g4.add(jRadioButton8);
             jRadioButton6.setEnabled(true);
             jRadioButton7.setEnabled(true);
             jRadioButton8.setEnabled(true);
-            jRadioButton9.setText("Disponible");
             jRadioButton9.setEnabled(true);
+            jRadioButton11.setEnabled(true);
             btnGuardar.setEnabled(true);
         }
 
@@ -731,13 +744,14 @@ g4.add(jRadioButton8);
     lblMensaje.setText("");
     
     
-     g1.clearSelection();
- g2.clearSelection();
- g3.clearSelection();
- g4.clearSelection();
- jRadioButton9.setSelected(false);  
- jRadioButton9.setText("Disponible");
- jRadioButton9.setEnabled(true);
+g1.clearSelection();
+  g2.clearSelection();
+  g3.clearSelection();
+  g4.clearSelection();
+  jRadioButton9.setSelected(true);
+  jRadioButton11.setSelected(false);
+  jRadioButton9.setEnabled(true);
+  jRadioButton11.setEnabled(true);
  
     txtMarca.setEditable(true);
     txtModelo.setEditable(true);
@@ -824,6 +838,10 @@ g4.add(jRadioButton8);
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecioActionPerformed
 
+    private void jRadioButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton11ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton11ActionPerformed
+
     
  private void limpiarCampos() {
 
@@ -840,10 +858,10 @@ g4.add(jRadioButton8);
     g3.clearSelection();
     g4.clearSelection();
 
-    // ESTE ES EL IMPORTANTE
-    jRadioButton9.setSelected(false);
-    jRadioButton9.setText("Disponible");
+    jRadioButton9.setSelected(true);
+    jRadioButton11.setSelected(false);
     jRadioButton9.setEnabled(true);
+    jRadioButton11.setEnabled(true);
     
     txtMarca.setEditable(true);
     txtModelo.setEditable(true);
@@ -923,6 +941,7 @@ g4.add(jRadioButton8);
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton10;
+    private javax.swing.JRadioButton jRadioButton11;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
