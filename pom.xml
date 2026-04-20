@@ -17,4 +17,5 @@
         <maven.compiler.release>25</maven.compiler.release>
         <exec.mainClass>com.mycompany.proyectorencar.ProyectoRencar</exec.mainClass>
     </properties>
+    <name>ProyectoRencarFinal</name>
 </project>

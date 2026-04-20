@@ -1,3 +1,2 @@
-1234;A1234;2026-04-20;Vehiculo entregado en buenas condiciones
-3;L1234;2026-05-01;Vehiculo entregado en buenas condiciones
-1;A1234;2026-04-22;
+1;C1234;2026-04-27;
+2;A1234;2026-04-20;

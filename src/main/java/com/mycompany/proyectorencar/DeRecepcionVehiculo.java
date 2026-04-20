@@ -20,6 +20,7 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
     private final String nombre;
     private final String apellido;
     private boolean modoModificar = false;
+    private boolean esNuevaRecepcion = true;
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DeRecepcionVehiculo.class.getName());
 
     /**
@@ -39,6 +40,10 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
         
         lblEstado.setText(" ");
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        txtIdRecepcion.setText(obtenerNuevoIdRecepcion());
+        
+        esNuevaRecepcion = true;
 
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -368,6 +373,7 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
         lblEstado.setText("Modificando");
         lblEstado.setForeground(java.awt.Color.BLUE);
         modoModificar = true;
+        esNuevaRecepcion = false;
         txtIdMatricula.setText(recepcion[1]);
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -383,6 +389,8 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
         lblEstado.setText("Creando");
         lblEstado.setForeground(java.awt.Color.GREEN.darker());
         modoModificar = false;
+        esNuevaRecepcion = true;
+        txtIdRecepcion.setText(obtenerNuevoIdRecepcion());
         limpiarCamposExceptoId();
         }
     }//GEN-LAST:event_txtIdRecepcionActionPerformed
@@ -416,45 +424,61 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
         try {
             Date fechaRecDate = jDateChooser1.getDate();
             java.time.LocalDate fechaRec = fechaRecDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-            java.time.LocalDate hoy = java.time.LocalDate.now();
             String matricula = txtIdMatricula.getText().trim();
             String[] reserva = ArchivoUtil.buscarReservaPorMatricula(matricula);
 
-            if (fechaRec.isBefore(hoy)) {
-                JOptionPane.showMessageDialog(this, "La fecha de recepción no puede ser anterior a hoy.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            if (reserva != null) {
-                java.time.LocalDate fechaEntradaReserva = java.time.LocalDate.parse(reserva[5]);
-                if (fechaRec.isBefore(fechaEntradaReserva)) {
-                    JOptionPane.showMessageDialog(this, "La fecha de recepción no puede ser antes de la fecha de entrada de la reserva.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+            if (esNuevaRecepcion) {
+                java.time.LocalDate hoy = java.time.LocalDate.now();
+                if (fechaRec.isBefore(hoy)) {
+                    JOptionPane.showMessageDialog(this, "La fecha de recepción no puede ser anterior a hoy.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
                     return;
+                }
+
+                if (reserva != null) {
+                    java.time.LocalDate fechaEntradaReserva = java.time.LocalDate.parse(reserva[5]);
+                    if (fechaRec.isBefore(fechaEntradaReserva)) {
+                        JOptionPane.showMessageDialog(this, "La fecha de recepción no puede ser antes de la fecha de entrada de la reserva.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
                 }
             }
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String nuevaLinea = txtIdRecepcion.getText().trim() + ";" +
+            String idRecepcion = txtIdRecepcion.getText().trim();
+            
+            boolean recepcionExiste = false;
+            List<String> lineasRes = ArchivoUtil.leerArchivo("recepciones.txt");
+            for (String linea : lineasRes) {
+                String[] partes = linea.split(";");
+                if (partes[0].equals(idRecepcion)) {
+                    recepcionExiste = true;
+                    break;
+                }
+            }
+
+            String nuevaLinea = idRecepcion + ";" +
                     matricula + ";" +
                     sdf.format(fechaRecDate) + ";" +
                     txtObservacion.getText().trim();
 
-            if (modoModificar) {
+            if (recepcionExiste) {
                 List<String> lineas = ArchivoUtil.leerArchivo("recepciones.txt");
                 for (int i = 0; i < lineas.size(); i++) {
                     String[] partes = lineas.get(i).split(";");
-                    if (partes[0].equalsIgnoreCase(txtIdRecepcion.getText().trim())) {
+                    if (partes[0].equals(idRecepcion)) {
                         lineas.set(i, nuevaLinea);
                         break;
                     }
                 }
                 ArchivoUtil.escribirArchivo("recepciones.txt", lineas);
+                JOptionPane.showMessageDialog(this, "Recepción modificada correctamente.");
             } else {
                 ArchivoUtil.agregarLinea("recepciones.txt", nuevaLinea);
+                cambiarStatusVehiculo(matricula, true);
+                JOptionPane.showMessageDialog(this, "Recepción creada exitosamente.");
             }
-
-            cambiarStatusVehiculo(matricula, false);
-            JOptionPane.showMessageDialog(this, "Recepción guardada correctamente.");
+            
+            esNuevaRecepcion = true;
             limpiarTodo();
 
         } catch (Exception e) {
@@ -514,10 +538,37 @@ public class DeRecepcionVehiculo extends javax.swing.JFrame {
     }
 
     private void limpiarTodo() {
-        txtIdRecepcion.setText("");
+        txtIdRecepcion.setText(obtenerNuevoIdRecepcion());
         lblEstado.setText(" ");
         modoModificar = false;
+        esNuevaRecepcion = true;
         limpiarCamposExceptoId();
+    }
+    
+    private String obtenerNuevoIdRecepcion() {
+        try {
+            List<String> lineas = ArchivoUtil.leerArchivo("recepciones.txt");
+            if (lineas.isEmpty()) {
+                return "1";
+            }
+            int maxId = 0;
+            for (String linea : lineas) {
+                String[] partes = linea.split(";");
+                if (partes.length > 0) {
+                    try {
+                        int id = Integer.parseInt(partes[0]);
+                        if (id > maxId) {
+                            maxId = id;
+                        }
+                    } catch (NumberFormatException e) {
+                        // Ignorar
+                    }
+                }
+            }
+            return String.valueOf(maxId + 1);
+        } catch (Exception e) {
+            return "1";
+        }
     }
     
 

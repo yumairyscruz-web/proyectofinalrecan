@@ -1,5 +1,5 @@
 A12367;Toyota;Corrola;0;0;2;Gama media;2000.0;false;true;false;Verde;true;true
 C1234;Hyundai;Sonata;1;0;1;Gama basica  o economica;1500.0;false;true;false;Naranja;true;true
-A1234;toyota;corolla;1;1;2;Gama media;2000.0;false;true;false;rojo;true;false
-J1234;Hyundai;Sonata;1;1;2;Gama media;2000.0;false;true;false;Gris;true;false
+A1234;toyota;corolla;1;1;2;Gama media;2000.0;false;true;false;rojo;true;true
+J1234;Hyundai;Sonata;1;1;2;Gama media;2000.0;false;true;false;Gris;true;true
 L1234;Honda Civic;Sedan;0;1;3;Gama alta;3000.0;true;true;true;Gris;true;false

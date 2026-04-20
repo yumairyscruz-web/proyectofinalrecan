@@ -20,6 +20,10 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     private final String apellido;
     
     private final boolean modoCreando = false;
+    private boolean cargandoReserva = false;
+    private boolean reservaModificada = false;
+    private boolean esNuevaReserva = true;
+    private String idReservaActual = "";
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(De_Reservas_Clientes.class.getName());
 
     /**
@@ -41,6 +45,24 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         java.time.LocalDate hoy = java.time.LocalDate.now();
         lblFechaReserva.setText(hoy.toString());
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        
+        jRadioButton1.setText("Disponible");
+        jRadioButton1.setSelected(true);
+        jRadioButton1.setEnabled(false);
+        jRadioButton1.setFocusable(false);
+        
+        esNuevaReserva = true;
+        
+        txtreserva.setEditable(true);
+        txtreserva.setText(obtenerNuevoIdReserva());
+        txtreserva.addActionListener(e -> {
+            String idReserva = txtreserva.getText().trim();
+            if (!idReserva.isEmpty()) {
+                cargarReserva(idReserva);
+            }
+            reservaModificada = false;
+            esNuevaReserva = true;
+        });
 
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -65,6 +87,36 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         });
     }
     
+    private String obtenerNuevoIdReserva() {
+        try {
+            List<String> lineas = ArchivoUtil.leerArchivo("reservas.txt");
+            if (lineas.isEmpty()) {
+                return "1";
+            }
+            int maxId = 0;
+            for (String linea : lineas) {
+                String[] partes = linea.split(";");
+                if (partes.length > 0) {
+                    try {
+                        int id = Integer.parseInt(partes[0]);
+                        if (id > maxId) {
+                            maxId = id;
+                        }
+                    } catch (NumberFormatException e) {
+                        // Ignorar
+                    }
+                }
+            }
+            return String.valueOf(maxId + 1);
+        } catch (Exception e) {
+            return "1";
+        }
+    }
+    
+    private String obtenerIdReserva() {
+        return txtreserva.getText().trim();
+    }
+    
     private void calcularReserva() {
         Date fechaSalidaDate = jDateChooser2.getDate();
         Date fechaEntradaDate = jDateChooser3.getDate();
@@ -76,18 +128,6 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         try {
             java.time.LocalDate salida = fechaSalidaDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
             java.time.LocalDate entrada = fechaEntradaDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-            java.time.LocalDate reserva = java.time.LocalDate.parse(lblFechaReserva.getText());
-            java.time.LocalDate hoy = java.time.LocalDate.now();
-
-            if (salida.isBefore(hoy)) {
-                JOptionPane.showMessageDialog(this, "La fecha de salida no puede ser anterior a hoy.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            if (salida.isBefore(reserva)) {
-                JOptionPane.showMessageDialog(this, "Fecha salida menor que fecha reserva", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
 
             if (entrada.isBefore(salida)) {
                 JOptionPane.showMessageDialog(this, "La fecha de entrada no puede ser antes de la salida.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
@@ -688,25 +728,31 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
 
     if (vehiculo != null) {
 
-        boolean status = Boolean.parseBoolean(vehiculo[13]);
+        boolean disponible = Boolean.parseBoolean(vehiculo[13]);
 
-        if (status) {
+        if (!disponible) {
             JOptionPane.showMessageDialog(this, "Este vehículo ya está reservado.", "Error", JOptionPane.ERROR_MESSAGE);
             txtIdMatricula.setText("");
-            jRadioButton1.setEnabled(true);
+            jRadioButton1.setText("No Disponible");
+            jRadioButton1.setSelected(false);
+            jRadioButton1.setEnabled(false);
+            btnGuardar.setEnabled(false);
             return;
         }
 
         lblMarcaModelo.setText(vehiculo[1] + " " + vehiculo[2]);
         lblDescVeh.setText(vehiculo[6]);
-        if (vehiculo[13].equals("false")) {
+        boolean statusVehiculo = Boolean.parseBoolean(vehiculo[13]);
+        if (statusVehiculo) {
             jRadioButton1.setText("Disponible");
             jRadioButton1.setSelected(true);
+            btnGuardar.setEnabled(true);
         } else {
             jRadioButton1.setText("No Disponible");
             jRadioButton1.setSelected(false);
         }
         jRadioButton1.setEnabled(false);
+        jRadioButton1.setFocusable(false);
 
         String[] oferta = ArchivoUtil.buscarOfertaPorMatricula(matricula);
 
@@ -849,16 +895,19 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
          
      
         String matricula = txtIdMatricula.getText().trim();
-        String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
+        if (!reservaModificada) {
+            String[] vehiculo = ArchivoUtil.buscarVehiculo(matricula);
 
-        if (vehiculo == null) {
-            JOptionPane.showMessageDialog(this, "Vehículo no existe.");
-            return;
-        }
+            if (vehiculo == null) {
+                JOptionPane.showMessageDialog(this, "Vehículo no existe.");
+                return;
+            }
 
-        if (vehiculo[13].equals("true")) {
-            JOptionPane.showMessageDialog(this, "Vehículo no disponible.");
-            return;
+            boolean disponible = Boolean.parseBoolean(vehiculo[13]);
+            if (!disponible) {
+                JOptionPane.showMessageDialog(this, "Vehículo no disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
         }
 
         
@@ -871,6 +920,22 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
 
         }
 
+                java.time.LocalDate salidaDate = jDateChooser2.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+                java.time.LocalDate entradaDate = jDateChooser3.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+                
+                if (esNuevaReserva) {
+                    java.time.LocalDate hoy = java.time.LocalDate.now();
+                    if (salidaDate.isBefore(hoy)) {
+                        JOptionPane.showMessageDialog(this, "La fecha de salida no puede ser anterior a hoy.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                }
+                
+                if (entradaDate.isBefore(salidaDate)) {
+                    JOptionPane.showMessageDialog(this, "La fecha de entrada no puede ser antes de la salida.", "Fecha incorrecta", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String cedula     = txtIdCedula.getText().trim();
                 String idOferta   = txtIdOferta.getText().trim();
@@ -881,15 +946,40 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
                 String total      = lblTotalReserva.getText().replace("RD$ ", "");
                 String obs        = txtObservacion.getText().trim();
 
-                String idReserva = txtreserva.getText().trim();
+String idReserva = txtreserva.getText().trim();
+        
+        boolean reservaExiste = false;
+        List<String> lineasReservas = ArchivoUtil.leerArchivo("reservas.txt");
+        for (String linea : lineasReservas) {
+            String[] partes = linea.split(";");
+            if (partes[0].equals(idReserva)) {
+                reservaExiste = true;
+                break;
+            }
+        }
 
         String nuevaLinea = idReserva + ";" + matricula + ";" + cedula + ";" + idOferta + ";" +
                 fechaRes + ";" + fechaSal + ";" + fechaEnt + ";" +
                 obs + ";" + dias + ";" + total + ";" + "true";
 
-                ArchivoUtil.agregarLinea("reservas.txt", nuevaLinea);
-                cambiarStatusVehiculo(matricula, true);
-                JOptionPane.showMessageDialog(this, "Reserva guardada correctamente.");
+                if (reservaExiste) {
+                    List<String> lineas = ArchivoUtil.leerArchivo("reservas.txt");
+                    for (int i = 0; i < lineas.size(); i++) {
+                        String[] partes = lineas.get(i).split(";");
+                        if (partes[0].equals(idReserva)) {
+                            lineas.set(i, nuevaLinea);
+                            break;
+                        }
+                    }
+                    ArchivoUtil.escribirArchivo("reservas.txt", lineas);
+                    JOptionPane.showMessageDialog(this, "Modificación exitosa.");
+                } else {
+                    ArchivoUtil.agregarLinea("reservas.txt", nuevaLinea);
+                    cambiarStatusVehiculo(matricula, true);
+                    JOptionPane.showMessageDialog(this, "Reserva creada exitosamente.");
+                }
+reservaModificada = false;
+                idReservaActual = "";
                 limpiarTodo();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -918,6 +1008,85 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
+    private void cargarReserva(String idReserva) {
+        if (idReserva.isEmpty()) return;
+        
+        cargandoReserva = true;
+        
+        List<String> lineas = ArchivoUtil.leerArchivo("reservas.txt");
+        String[] reserva = null;
+        
+        for (String linea : lineas) {
+            String[] partes = linea.split(";");
+            if (partes[0].equals(idReserva)) {
+                reserva = partes;
+                break;
+            }
+        }
+        
+        if (reserva == null) {
+            txtreserva.setText(obtenerNuevoIdReserva());
+            limpiarCampos();
+            reservaModificada = false;
+            esNuevaReserva = true;
+            return;
+        }
+        
+        reservaModificada = true;
+        esNuevaReserva = false;
+        esNuevaReserva = false;
+        idReservaActual = idReserva;
+        txtIdMatricula.setText(reserva[1]);
+        
+        String[] vehiculo = ArchivoUtil.buscarVehiculo(reserva[1]);
+        if (vehiculo != null) {
+            lblMarcaModelo.setText(vehiculo[1] + " " + vehiculo[2]);
+            lblDescVeh.setText(vehiculo[6]);
+            boolean disponible = Boolean.parseBoolean(vehiculo[13]);
+            if (disponible) {
+                jRadioButton1.setText("Disponible");
+                jRadioButton1.setSelected(true);
+            } else {
+                jRadioButton1.setText("Reservado");
+                jRadioButton1.setSelected(false);
+            }
+            jRadioButton1.setEnabled(false);
+            
+            String[] oferta = ArchivoUtil.buscarOfertaPorMatricula(reserva[1]);
+            if (oferta != null) {
+                txtIdOferta.setText(oferta[0]);
+                lblPrecioOferta.setText("RD$ " + oferta[3]);
+            } else {
+                txtIdOferta.setText("");
+                lblPrecioOferta.setText("");
+            }
+        }
+        
+        txtIdCedula.setText(reserva[2]);
+        String[] cliente = ArchivoUtil.buscarCliente(reserva[2]);
+        if (cliente != null) {
+            lblNombreCliente.setText(cliente[1] + " " + cliente[2]);
+        }
+        
+        lblFechaReserva.setText(reserva[4]);
+        
+        try {
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date fechaSalida = sdf.parse(reserva[5]);
+            java.util.Date fechaEntrada = sdf.parse(reserva[6]);
+            jDateChooser2.setDate(fechaSalida);
+            jDateChooser3.setDate(fechaEntrada);
+        } catch (Exception e) {
+            jDateChooser2.setDate(null);
+            jDateChooser3.setDate(null);
+        }
+        
+        txtObservacion.setText(reserva.length > 7 ? reserva[7] : "");
+        lblDiasReserva.setText(reserva.length > 8 ? reserva[8] + " días" : "");
+        lblTotalReserva.setText(reserva.length > 9 ? "RD$ " + reserva[9] : "");
+        
+        cargandoReserva = false;
+    }
     
     private void borrarReserva(String idReserva) {
 
@@ -993,6 +1162,19 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
 }
     
     private void limpiarTodo() {
+    limpiarCampos();
+    java.time.LocalDate hoy = java.time.LocalDate.now();
+    lblFechaReserva.setText(hoy.toString());
+    txtreserva.setText(obtenerNuevoIdReserva());
+    jRadioButton1.setText("Disponible");
+    jRadioButton1.setSelected(true);
+    jRadioButton1.setEnabled(false);
+    jRadioButton1.setFocusable(false);
+    reservaModificada = false;
+    esNuevaReserva = true;
+    }
+    
+private void limpiarCampos() {
     txtIdMatricula.setText("");
     txtIdCedula.setText("");
     txtIdOferta.setText("");
@@ -1005,14 +1187,8 @@ public class De_Reservas_Clientes extends javax.swing.JFrame {
     lblPrecioOferta.setText("");
     lblDiasReserva.setText("");
     lblTotalReserva.setText("");
-    java.time.LocalDate hoy = java.time.LocalDate.now();
-    lblFechaReserva.setText(hoy.toString());
-    txtreserva.setText("");
-    jRadioButton1.setText("");
-    jRadioButton1.setEnabled(true);
-    
 }
-    
+     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
