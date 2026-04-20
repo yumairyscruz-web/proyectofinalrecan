@@ -43,6 +43,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem4.setVisible(false); // Oculta Mantenimiento de Usuarios
         jMenuItem9.setEnabled(false); // De Reserva de Clientes
         jMenuItem1.setEnabled(false); // De Recepción de Vehículo
+        // Consultas (solo admin)
+        jMenuItem2.setEnabled(false);
+        jMenuItem3.setEnabled(false);
+        jMenuItem10.setEnabled(false);
+        jMenuItem11.setEnabled(false);
+        jMenuItem12.setEnabled(false);
     } else { // Administrador (Nivel 0) [cite: 195]
         jMenuItem4.setVisible(true); // El admin sí puede ver "De Usuario"
     }
@@ -95,7 +101,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem14 = new javax.swing.JMenuItem();
         MenuSalir = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -189,18 +195,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu3.setText("Consultas");
 
         jMenuItem2.setText("De Cliente");
+        jMenuItem2.addActionListener(this::jMenuItem2ActionPerformed);
         jMenu3.add(jMenuItem2);
 
-        jMenuItem3.setText("jMenuItem3");
+        jMenuItem3.setText("De Vehiculos");
+        jMenuItem3.addActionListener(this::jMenuItem3ActionPerformed);
         jMenu3.add(jMenuItem3);
 
-        jMenuItem10.setText("jMenuItem10");
+        jMenuItem10.setText("De Ofertas");
+        jMenuItem10.addActionListener(this::jMenuItem10ActionPerformed);
         jMenu3.add(jMenuItem10);
 
-        jMenuItem11.setText("jMenuItem11");
+        jMenuItem11.setText("De Reservas");
+        jMenuItem11.addActionListener(this::jMenuItem11ActionPerformed);
         jMenu3.add(jMenuItem11);
 
-        jMenuItem12.setText("jMenuItem12");
+        jMenuItem12.setText("De Recepción");
+        jMenuItem12.addActionListener(this::jMenuItem12ActionPerformed);
         jMenu3.add(jMenuItem12);
 
         jMenuBar1.add(jMenu3);
@@ -240,7 +251,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
         new De_Reservas_Clientes(usuario, nivelUsuario, nombre, apellido).setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenu7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu7ActionPerformed
@@ -248,34 +258,48 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         new DeRecepcionVehiculo(usuario, nivelUsuario, nombre, apellido).setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {
+        new com.mycompany.proyectorencar.Consultas.DeClientes().setVisible(true);
+    }
+    
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        new com.mycompany.proyectorencar.Consultas.DeVehiculos().setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
 private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {                                           
     new Deusuario(usuario, nivelUsuario, nombre, apellido).setVisible(true);
-    this.dispose();
 }
 
 private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {
     new DeGama(usuario, nivelUsuario, nombre, apellido).setVisible(true);
-    this.dispose();
 }
 
 private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {
     new DeVehiculo(usuario, nivelUsuario, nombre, apellido).setVisible(true);
-    this.dispose();
 }
 
 private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {
     new DeCliente(usuario, nivelUsuario, nombre, apellido).setVisible(true);
-    this.dispose();
 }
 
 private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {
     new DeOferta(usuario, nivelUsuario, nombre, apellido).setVisible(true);
-    this.dispose();
 }
 
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {
+        new com.mycompany.proyectorencar.Consultas.DeOfertas().setVisible(true);
+    }
+    
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {
+        new com.mycompany.proyectorencar.Consultas.DeReservas().setVisible(true);
+    }
+    
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {
+        new com.mycompany.proyectorencar.Consultas.DeRecepcion().setVisible(true);
+    }
+    
 private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {
      int opcion = JOptionPane.showConfirmDialog(
             this, 

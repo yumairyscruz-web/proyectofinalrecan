@@ -27,7 +27,7 @@ public class DeVehiculo extends javax.swing.JFrame {
             private final String apellido;
     
     
-    ButtonGroup g1, g2, g3, g4;
+    ButtonGroup g1, g2, g3, g4, g5;
     
   private String obtenerDatos() {
 
@@ -75,19 +75,13 @@ public class DeVehiculo extends javax.swing.JFrame {
     this.setLocationRelativeTo(null);    
         
         
-        g1 = new ButtonGroup();
-g1.add(jRadioButton1);
-g1.add(jRadioButton2);
-
-g2 = new ButtonGroup();
-g2.add(jRadioButton3);
-g2.add(jRadioButton4);
-
-g3 = new ButtonGroup();
-g3.add(jRadioButton5);
-g3.add(jRadioButton6);
-
-g4 = new ButtonGroup();
+g1 = new ButtonGroup();
+         g2 = new ButtonGroup();
+         g3 = new ButtonGroup();
+         g4 = new ButtonGroup();
+         g5 = new ButtonGroup();
+         g5.add(jRadioButton9);
+         g5.add(jRadioButton11);
 g4.add(jRadioButton7);
 g4.add(jRadioButton8);
 
@@ -488,9 +482,7 @@ g4.add(jRadioButton8);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 87, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -501,7 +493,7 @@ g4.add(jRadioButton8);
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
